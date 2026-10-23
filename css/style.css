@@ -200,3 +200,26 @@ dialog input{width:100%;font:700 17px Nunito,sans-serif;color:#fff;background:#0
 dialog .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
 #toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#150e33;color:#fff;border:2px solid #6A5AFF;border-radius:14px;padding:12px 18px;font-weight:800;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:92vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ===== Cubo menor e deslocado para a direita ===== */
+#gl{left:76%;top:20px;width:230px;height:230px;margin-left:-115px}
+.stage:after{left:76%;width:150px;margin-left:-75px}
+.hint3d{left:76%}
+.cube{left:76%;top:70px;margin-left:-45px;width:90px;height:90px}
+.cube div{width:90px;height:90px;font-size:28px}
+.cube .f1{transform:translateZ(45px)}.cube .f2{transform:rotateY(90deg) translateZ(45px)}.cube .f3{transform:rotateY(180deg) translateZ(45px)}.cube .f4{transform:rotateY(-90deg) translateZ(45px)}.cube .f5{transform:rotateX(90deg) translateZ(45px)}.cube .f6{transform:rotateX(-90deg) translateZ(45px)}
+@media(max-width:820px){#gl{left:80%;width:180px;height:180px;margin-left:-90px;top:30px}.stage:after{left:80%}.hint3d{left:80%}.win{width:190px}.cube{left:80%}}
+/* ===== Teclas interativas + dicas ===== */
+.keys .key{width:54px;height:54px;display:grid;place-items:center;border:0;border-radius:14px;font:500 19px "Fira Code",ui-monospace,monospace;color:#fff;background:linear-gradient(160deg,#8b5cf6,#5b21b6);box-shadow:0 6px 0 #3b0f84,0 14px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.35);cursor:pointer;transition:transform .12s,box-shadow .12s}
+@media(hover:hover){.keys .key:hover:not([aria-pressed="true"]){transform:translateY(-4px) rotate(-4deg)}}
+.keys .key:active,.keys .key[aria-pressed="true"]{transform:translateY(4px);transition-duration:.04s;box-shadow:0 2px 0 #3b0f84,0 0 0 3px #00F5FF,0 0 22px rgba(0,245,255,.5)}
+.keys .key[aria-pressed="true"]{background:linear-gradient(160deg,#6A5AFF,#B84BFF)}
+.tipbox{margin-top:16px;max-width:560px;align-items:flex-start}
+.tipbox .nyxav{width:52px;height:52px;margin-top:2px}
+.tipbox .bubble{flex:1;min-height:88px}
+.tipbox #tipx{display:block;line-height:1.45;color:#e9e3ff}
+.tipbox small{display:block;margin-top:8px;color:#b4acd9;font-weight:700;font-size:12px}
+.tag{display:inline-block;font:900 11px Nunito,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:99px;margin-bottom:6px}
+.tag[hidden]{display:none}.tag.d{background:#00F5FF;color:#0b0720}.tag.c{background:#8a2fd0;color:#fff}
+.tipbox.in .bubble{animation:tipin .28s ease-out}
+@keyframes tipin{from{opacity:0;transform:translateY(6px)}}

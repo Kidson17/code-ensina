@@ -199,7 +199,7 @@ home();
   const build=()=>{try{
     const cv=document.createElement('canvas');cv.id='gl';cv.setAttribute('aria-hidden','true');st.appendChild(cv);
     const r=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));
-    const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,50);cam.position.z=7;
+    const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,50);cam.position.z=8;
     sc.add(new THREE.AmbientLight(0xc4b5fd,.85));const pl=new THREE.PointLight(0xffffff,1.3);pl.position.set(4,4,6);sc.add(pl);
     const face=t=>{const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,256,256);
       g.addColorStop(0,'#8b5cf6');g.addColorStop(1,'#4c1d95');x.fillStyle=g;x.fillRect(0,0,256,256);
@@ -211,7 +211,7 @@ home();
     grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:0xede9fe})));
     sc.add(grp);grp.rotation.set(-.35,.6,0);
     const sat=new THREE.Group(),sm=new THREE.MeshStandardMaterial({color:0xf5b50a,roughness:.3});
-    [[2.6,0,0],[-2.4,.6,.8]].forEach(p=>{const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.22,0),sm);m.position.set(...p);sat.add(m)});sc.add(sat);
+    [[2.2,.2,0],[-2.0,.7,.8]].forEach(p=>{const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.22,0),sm);m.position.set(...p);sat.add(m)});sc.add(sat);
     const size=()=>{const w=cv.clientWidth,h=cv.clientHeight;if(w){r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}};
     size();addEventListener('resize',size);
     let vx=.003,vy=.006,drag=false,px=0,py=0,vis=true,run=false;
@@ -248,3 +248,31 @@ function nyxHero(){
 }
 {const hm=home;home=function(){hm();nyxHero()}}
 home();
+
+/* ===== Teclas de símbolos: dicas e curiosidades ===== */
+(function(){
+  const K=[
+   ["</>","Tags do HTML",[["d","Quase toda tag HTML abre e fecha: <p> abre e </p> fecha. A barra / é o que fecha."],["c","HTML significa HyperText Markup Language: uma linguagem de marcação que dá estrutura às páginas."],["d","O texto não aparece como esperado? Confira se você esqueceu de fechar alguma tag."]]],
+   ["{ }","Chaves",[["d","No CSS, as chaves guardam as regras: h1 { color: purple; }. Tudo dentro delas vale para o h1."],["c","Em muitas linguagens, as chaves marcam um bloco: um grupo de comandos que andam juntos."],["d","Abriu uma chave? Feche! Chave sobrando ou faltando é um dos erros mais comuns."]]],
+   ["( )","Parênteses",[["d","Parênteses mudam a ordem das contas: (2 + 3) * 4 dá 20, mas 2 + 3 * 4 dá 14."],["c","Em várias linguagens, parênteses depois de um nome, como mostrar(), chamam uma função: um comando que você pode reusar."],["d","Como as chaves, os parênteses vêm em par. Abriu um? Lembre de fechar."]]],
+   ["[ ]","Colchetes",[["d","Colchetes guardam listas: nomes = [\"Ana\", \"Beto\", \"Caio\"] é uma lista com três itens."],["c","Quase toda linguagem conta posições a partir do zero: o primeiro item de uma lista é o número 0."],["d","Para pegar um item da lista, use a posição entre colchetes: nomes[0] é o primeiro."]]],
+   ["=>","Seta",[["d","Em JavaScript, a seta => cria uma função curta: dobro = n => n * 2."],["c","A seta chegou ao JavaScript em 2015, na versão chamada ES6, que trouxe muitas novidades."],["d","Não confunda: = guarda um valor, enquanto => aparece em funções."]]],
+   [";","Ponto e vírgula",[["d","Em muitas linguagens, o ponto e vírgula marca o fim de um comando, como o ponto final de uma frase."],["c","Um ; esquecido é um dos erros mais famosos da programação: parece pouca coisa, mas o programa pode nem rodar."],["d","No CSS, cada declaração termina com ; como em color: purple; font-size: 20px;"]]],
+   ["#","Cerquilha",[["d","No CSS, # seleciona um elemento pelo id: #titulo { color: purple; }."],["c","Em Python, o # começa um comentário: uma anotação que o computador ignora."],["d","Cores em CSS usam # e um código, como #6A5AFF, o índigo do Code Ensina."]]],
+   ["&&","Operador E",[["d","&& significa E: a condição só é verdadeira se as duas partes forem verdadeiras."],["c","Essa lógica vem de George Boole, matemático do século 19. Por isso verdadeiro e falso se chamam valores booleanos."],["d","Exemplo: idade >= 12 && idade <= 17 só é verdadeiro para quem tem de 12 a 17 anos."]]]
+  ];
+  const keys=$('#keys');if(!keys)return;
+  let cur=-1,idx=0;
+  K.forEach((k,i)=>{const b=document.createElement('button');b.type='button';b.className='key';b.textContent=k[0];
+    b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',k[1]+': ver dica ou curiosidade');b.addEventListener('click',()=>show(i));keys.appendChild(b)});
+  function show(i){
+    idx=(i==cur)?(idx+1)%K[i][2].length:0;cur=i;
+    [...keys.children].forEach((b,j)=>b.setAttribute('aria-pressed',j==i));
+    const [t,x]=K[i][2][idx],g=$('#tiptag'),box=$('#tipbox');
+    g.hidden=false;g.className='tag '+t;g.textContent=t=='d'?'Dica':'Curiosidade';
+    $('#tipt').textContent=K[i][0]+'  '+K[i][1];$('#tipx').textContent=x;
+    $('#tipn').textContent=(idx+1)+' de '+K[i][2].length+' · toque de novo para a próxima';
+    $('#tipav').src=NYX[t=='d'?'confiante':'surpresa'];
+    box.classList.remove('in');void box.offsetWidth;box.classList.add('in');
+  }
+})();
