@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Code Ensina: aprenda lógica de programação, HTML e CSS com lições curtas, XP e desafios para a sala de aula.">
+<meta name="theme-color" content="#0b0720">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<title>Code Ensina — aprenda a programar jogando</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="login">
+ <div class="floor" aria-hidden="true"></div><div id="syms" aria-hidden="true"></div>
+ <div class="lg">
+  <section>
+   <div class="brand"><img src="assets/img/logo-mark.webp" alt="" width="48" height="48">Code Ensina</div>
+   <h1>Aprenda a programar jogando.</h1>
+   <p class="sub">Lições rápidas de lógica, HTML e CSS, com XP, sequência de dias e desafios pensados para a sala de aula.</p>
+   <div class="stats3"><div>3<small>módulos</small></div><div>45<small>desafios</small></div><div>⚡ XP<small>e sequência</small></div></div>
+   <div class="stage" aria-hidden="true">
+    <div class="cube"><div class="f1">&lt;/&gt;</div><div class="f2">{ }</div><div class="f3">( )</div><div class="f4">[ ]</div><div class="f5">=&gt;</div><div class="f6">#</div></div>
+    <div class="win"><div class="dots"><i></i><i></i><i></i></div><pre><span class="c">// sua primeira lição</span>
+<span class="k">const</span> aluno = <span class="s">"Você"</span>;
+<span class="k">se</span> (aluno.<span class="f">estuda</span>()) {
+  xp += <span class="n">10</span>;
+}</pre></div>
+   </div>
+   <div class="keys" id="keys" role="group" aria-label="Símbolos de programação: toque em um para ver uma dica ou curiosidade"></div>
+   <div class="nyx-dialog tipbox" id="tipbox" role="status" aria-live="polite"><img class="nyxav" id="tipav" src="assets/img/nyx/confiante.webp" alt="" width="52" height="52"><div class="bubble"><span class="tag" id="tiptag" hidden></span><b id="tipt">Toque em um símbolo</b><span id="tipx">Eu conto uma dica ou uma curiosidade sobre ele!</span><small id="tipn"></small></div></div>
+  </section>
+  <section class="lcard" id="lcard">
+   <div class="nyx-dialog sm"><img class="nyxav float" src="assets/img/nyx/ola.webp" alt="Nyx acenando" width="52" height="52"><div class="bubble" role="note"><b>Oi, eu sou a Nyx!</b>Entre ou crie sua conta e vamos codar juntos.</div></div>
+   <div class="tabs" role="tablist"><button id="tl" role="tab" aria-selected="true" onclick="authTab('login')">Entrar</button><button id="ts" role="tab" aria-selected="false" onclick="authTab('signup')">Criar conta</button></div>
+   <div id="fl">
+    <label for="lu">E-mail</label><input id="lu" type="email" autocomplete="email" placeholder="seu@email.com">
+    <label for="lp">Senha</label><input id="lp" type="password" autocomplete="current-password" placeholder="sua senha">
+    <div id="lerr" role="alert"></div>
+    <button class="btn wide" id="bl" onclick="doLogin()">Entrar</button>
+    <p class="hint"><a href="#" onclick="forgot();return false">Esqueci minha senha</a></p>
+   </div>
+   <div id="fs" hidden>
+    <label for="su_nick">Apelido (seu ID no app)</label><input id="su_nick" autocomplete="username" maxlength="20" placeholder="ex: nyx_fan">
+    <label for="su_name">Nome completo</label><input id="su_name" autocomplete="name" maxlength="100">
+    <label for="su_mail">E-mail</label><input id="su_mail" type="email" autocomplete="email">
+    <label for="su_birth">Data de nascimento</label><input id="su_birth" type="date" autocomplete="bday">
+    <div id="gwrap" hidden><label for="su_g">E-mail do responsável</label><input id="su_g" type="email"></div>
+    <label for="su_pass">Senha (mínimo 8 caracteres)</label><input id="su_pass" type="password" autocomplete="new-password">
+    <div class="chk"><input id="su_c" type="checkbox"><label for="su_c" id="clabel"></label></div>
+    <div id="serr" role="alert"></div>
+    <button class="btn wide" id="bs" onclick="doSignup()">Criar minha conta</button>
+   </div>
+  </section>
+ </div>
+ <div class="blocks">
+  <section class="blk"><p class="eyebrow rv">Como funciona</p><h2 class="rv">Aprender a programar em passos curtos.</h2><p class="lead rv">Cada lição leva poucos minutos e termina com uma recompensa.</p>
+   <div class="grid3"><div class="tile rv"><div class="big">&lt;/&gt;</div><h3>Aprenda</h3><p>Perguntas diretas, com exemplos de código fáceis de ler.</p></div><div class="tile rv"><div class="big">{ }</div><h3>Pratique</h3><p>Monte o código na ordem certa e veja o resultado na hora.</p></div><div class="tile rv"><div class="big">++</div><h3>Evolua</h3><p>Ganhe XP, mantenha a sequência de dias e desbloqueie lições.</p></div></div></section>
+  <section class="blk"><p class="eyebrow rv">Trilhas</p><h2 class="rv">Três módulos para começar.</h2><p class="lead rv">Da lógica ao visual de uma página, nessa ordem.</p>
+   <div class="grid3"><div class="tile rv" style="border-top:4px solid #8b5cf6"><div class="big">if</div><h3>Lógica de Programação</h3><p>Algoritmos, variáveis, condições e laços.</p></div><div class="tile rv" style="border-top:4px solid #a855f7"><div class="big">&lt;h1&gt;</div><h3>HTML</h3><p>Tags, links, imagens e listas: o esqueleto do site.</p></div><div class="tile rv" style="border-top:4px solid #d946ef"><div class="big">{ ; }</div><h3>CSS</h3><p>Cores, texto e caixas para dar estilo às páginas.</p></div></div></section>
+  <section class="blk"><div class="nyxgrid"><img class="rv nyxfull" src="assets/img/nyx/full.webp" alt="Nyx, a mascote: jovem programadora de cabelo roxo, fones de ouvido e um tablet de código" width="363" height="640" loading="lazy"><div><p class="eyebrow rv">Sua guia</p><h2 class="rv">Conheça a Nyx.</h2><p class="lead rv">Curiosa, esperta e sempre por perto. A Nyx comemora cada acerto, dá dicas quando o código trava e lembra que errar faz parte de aprender.</p><img class="rv" src="assets/img/logo-athenyx.webp" alt="Athenyx" width="170" height="170" style="width:170px;height:auto" loading="lazy"></div></div></section>
+  <section class="dw" id="dw"><div class="dsticky">
+   <div class="cap">
+    <div><p class="eyebrow">1 · O desafio</p><h2>Leia a pergunta.</h2><p class="lead">Uma tarefa por vez: sem textos longos e sem enrolação.</p></div>
+    <div><p class="eyebrow">2 · A prática</p><h2>Monte o código.</h2><p class="lead">Toque nos blocos para colocar cada parte no lugar certo.</p></div>
+    <div><p class="eyebrow">3 · A recompensa</p><h2>Ganhe XP.</h2><p class="lead">Acertou? Pontos na hora e a próxima lição liberada.</p></div>
+   </div>
+   <div class="phone" aria-hidden="true"><div class="pbar"><i id="dbar"></i></div><h4>Monte um parágrafo:</h4>
+    <div class="dslots"><span class="ds">&lt;p&gt;</span><span class="ds">Olá, mundo!</span><span class="ds">&lt;/p&gt;</span></div>
+    <div class="dpool"><span class="dp">&lt;/p&gt;</span><span class="dp">&lt;p&gt;</span><span class="dp">Olá, mundo!</span></div>
+    <div class="dbtn" id="dbtn">Verificar</div><div class="dfb" id="dfb"><span>Isso aí!</span><span>+14 XP</span></div></div>
+  </div></section>
+  <section class="blk"><p class="eyebrow rv">Para a escola</p><h2 class="rv">Pensado para a sala de aula.</h2><p class="lead rv">Simples para o aluno, leve para a escola.</p>
+   <div class="grid3"><div class="tile rv"><div class="big">[ ]</div><h3>Sem instalar</h3><p>Abre no navegador, no celular ou no computador.</p></div><div class="tile rv"><div class="big">3 min</div><h3>Lições curtas</h3><p>Cabem no intervalo ou nos últimos minutos da aula.</p></div><div class="tile rv"><div class="big">=&gt;</div><h3>Painel do professor</h3><p>Em breve: acompanhar turmas e desempenho.</p></div></div></section>
+  <section class="blk cta rv"><h2>Pronto para o primeiro nível?</h2><p class="lead">Entre com sua conta e comece pela lógica de programação.</p><button class="btn" onclick="toLogin()">Entrar agora</button></section>
+ </div>
+</div>
+<header class="top">
+  <div class="logo"><img src="assets/img/logo-mark.webp" alt="" width="36" height="36"><span>Code Ensina</span></div>
+  <span class="pill" title="Dias seguidos">🔥 <span id="st">0</span></span>
+  <span class="pill" title="Pontos de experiência">⚡ <span id="xp">0</span> XP</span>
+  <button class="pill" id="accb" onclick="openAcc()" hidden title="Minha conta"></button>
+  <button class="pill" onclick="logout()" style="cursor:pointer" title="Sair da conta">Sair</button>
+</header>
+<div class="wrap">
+  <div class="nyx-dialog hero"><img class="nyxav float" id="nyxh" src="assets/img/nyx/feliz.webp" alt="Nyx, a mascote" width="76" height="76"><div class="bubble" role="note"><b id="nyxt">Oi, eu sou a Nyx!</b><span id="nyxm">Pronto para codar hoje? Escolha uma lição e vamos juntos.</span></div></div>
+  <div id="home"></div>
+</div>
+
+<div id="les" hidden>
+  <div class="lt"><button class="x" onclick="closeL()" aria-label="Sair da lição">✕</button><div class="pb"><i id="bar"></i></div><span id="hr"></span></div>
+  <main id="qa"></main>
+  <footer class="ft" id="ft"></footer>
+</div>
+
+<div id="book" hidden role="dialog" aria-modal="true" aria-labelledby="bk_t"><div class="lt"><button class="x" onclick="closeBook()" aria-label="Fechar teoria">✕</button><h2 id="bk_t"></h2></div><main id="bk_b"></main><footer class="ft"><button class="btn wide" onclick="startFromBook()">Começar desafios</button></footer></div>
+<div id="cel" hidden role="alertdialog" aria-modal="true" aria-labelledby="celt" aria-describedby="cels"><div class="celbox"><div class="celico" id="celi" aria-hidden="true">✅</div><h2 id="celt"></h2><p id="cels"></p><button class="btn" id="celb">Continuar</button></div></div>
+<dialog id="priv" aria-labelledby="pvt"><h3 id="pvt">Política de Privacidade</h3>
+ <p><b>O que guardamos:</b> apelido, nome, e-mail, data de nascimento e seu progresso (lições, XP e sequência). Para menores de 13 anos, também o e-mail do responsável.</p>
+ <p><b>Para quê:</b> criar sua conta, salvar seu progresso e, no futuro, permitir que seu professor acompanhe a turma. Não vendemos seus dados nem os usamos para publicidade.</p>
+ <p><b>Quem vê:</b> só você. Seu apelido é o único dado que aparece no app.</p>
+ <p><b>Onde ficam:</b> em servidores do serviço Supabase, que podem estar fora do Brasil.</p>
+ <p><b>Seus direitos:</b> você pode apagar a conta e todos os dados a qualquer momento, em "Minha conta". Para corrigir dados ou tirar dúvidas, fale com o responsável pelo projeto.</p>
+ <div class="row"><button class="btn" onclick="$('#priv').close()">Entendi</button></div></dialog>
+<dialog id="acc" aria-labelledby="act"><h3 id="act">Minha conta</h3><p><b id="accn"></b><br><span id="acce"></span></p>
+ <p>Apagar a conta remove seu perfil e todo o seu progresso, sem volta.</p>
+ <div class="row"><button class="btn red" onclick="delAcc()">Apagar minha conta</button><button class="btn" onclick="$('#acc').close()">Fechar</button></div></dialog>
+<dialog id="newpw" aria-labelledby="npt"><h3 id="npt">Criar nova senha</h3><label for="np">Nova senha (mínimo 8 caracteres)</label><input id="np" type="password" autocomplete="new-password">
+ <div id="nperr" role="alert"></div><div class="row"><button class="btn" onclick="setPw()">Salvar senha</button></div></dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/content.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

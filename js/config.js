@@ -1,0 +1,6 @@
+// Chaves PÚBLICAS do Supabase (seguras no navegador porque o banco usa RLS).
+// NUNCA coloque aqui a "secret key" nem a "service_role".
+window.CE_CONFIG={
+  url:'https://qdcfjbjaoibuvpzytgih.supabase.co',
+  key:'sb_publishable_wmxyBWTrR97OlR-l7lLe0g_zYxS1dVQ'
+};
