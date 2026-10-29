@@ -4,6 +4,7 @@
   window.ME=null;
   const toast=t=>{let e=$('#toast');if(!e){e=document.createElement('div');e.id='toast';e.setAttribute('role','status');document.body.appendChild(e)}
     e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),4500)};
+  window.toast=toast;
   const msg=(id,t,ok)=>{const e=$(id);if(e){e.textContent=t||'';e.style.color=ok?'#bbf7d0':'#fecaca'}};
   const busy=(id,on)=>{const b=$(id);b.disabled=!!on;b.dataset.t=b.dataset.t||b.textContent;b.textContent=on?'Aguarde…':b.dataset.t};
   const age=d=>{const b=new Date(d+'T00:00:00'),n=new Date();let a=n.getFullYear()-b.getFullYear();const m=n.getMonth()-b.getMonth();if(m<0||(m==0&&n.getDate()<b.getDate()))a--;return a};
@@ -29,6 +30,7 @@
   if(!window.supabase||!cfg){const f=()=>msg('#lerr','Não foi possível carregar o serviço de login. Atualize a página.');window.doLogin=f;window.doSignup=()=>msg('#serr','Serviço indisponível. Atualize a página.');window.logout=()=>{};return}
   const sb=supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
+  window.CE_SB=sb;
   window.doLogin=async()=>{
     const email=$('#lu').value.trim(),pw=$('#lp').value;
     if(!okMail(email)||!pw)return msg('#lerr','Digite seu e-mail e sua senha.');
@@ -70,15 +72,15 @@
     const u=s.user;ME={id:u.id,email:u.email,nickname:'aluno',name:''};
     try{
       const [p,st,pr]=await Promise.all([
-        sb.from('profiles').select('nickname,full_name').eq('id',u.id).maybeSingle(),
+        sb.from('profiles').select('nickname,full_name,is_pro,pro_until').eq('id',u.id).maybeSingle(),
         sb.from('user_stats').select('xp,streak,last_active').eq('user_id',u.id).maybeSingle(),
         sb.from('progress').select('lesson_id').eq('user_id',u.id)]);
       if(p.error||st.error||pr.error)throw 0;
-      if(p.data){ME.nickname=p.data.nickname;ME.name=p.data.full_name}
+      if(p.data){ME.nickname=p.data.nickname;ME.name=p.data.full_name;ME.pro=!!p.data.is_pro&&(!p.data.pro_until||new Date(p.data.pro_until)>new Date())}
       S={xp:st.data?st.data.xp:0,streak:st.data?st.data.streak:0,last:st.data&&st.data.last_active||'',done:{}};
       (pr.data||[]).forEach(r=>S.done[r.lesson_id]=1);save();
     }catch(e){toast('Não foi possível carregar seu progresso. Verifique a conexão.')}
-    lg.hidden=true;$('#accb').hidden=false;$('#accb').textContent='👤 '+ME.nickname;home();
+    lg.hidden=true;$('#accb').hidden=false;$('#accb').textContent='👤 '+ME.nickname+(ME.pro?' · PRO':'');home();
   }
   function out(){
     ME=null;S={xp:0,streak:0,last:'',done:{}};try{localStorage.removeItem('code_v1')}catch(e){}
@@ -95,7 +97,7 @@
   {const e=end;end=function(w){const before=S.xp;e(w);if(w&&ME)sync(S.xp-before)}}
   async function sync(gain){
     const [a,b]=await Promise.all([
-      sb.from('progress').upsert({user_id:ME.id,lesson_id:L.mi+'-'+L.li,xp_earned:Math.max(0,Math.min(100,gain))}),
+      sb.rpc('record_lesson',{p_lesson:L.mi+'-'+L.li,p_xp:Math.max(0,Math.min(100,gain)),p_accuracy:Math.round(L.total/(L.total+L.miss)*100)}),
       sb.from('user_stats').update({xp:S.xp,streak:S.streak,last_active:S.last||null}).eq('user_id',ME.id)]);
     if(a.error||b.error)toast('Não foi possível salvar o progresso. Verifique a conexão.');
   }

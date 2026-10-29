@@ -87,3 +87,28 @@ const MODS=[
   F('Deixe o texto branco e o fundo índigo (#6A5AFF). Toque nos blocos na ordem das lacunas:','.botao {\n  ___: white;\n  ___: #6A5AFF;\n}',['color','background-color'],['font-size','margin'],'color pinta o texto de branco e background-color pinta o fundo de índigo. Se trocar a ordem, o botão fica branco com letra índigo!','<span style="display:inline-block;background:#6A5AFF;color:#fff;padding:10px 18px;border-radius:10px;font:700 16px sans-serif">Botão</span>'),
   M('Mini-desafio: de que cor fica o parágrafo?',['Cinza (gray)','Roxa (purple)','Preta'],'Cada seletor cuida do seu elemento: o h1 fica roxo e o p fica cinza. Regras de elementos diferentes não se misturam.','h1 { color: purple; }\np { color: gray; }')]}]}
 ];
+
+/* ===== v7: lições de 3 desafios; módulos e lições PRO (os desafios PRO ficam no banco) ===== */
+(function(){
+  const names=[['Algoritmos','Algoritmos e variáveis','Variáveis','Variáveis e decisões','Decisões e laços'],['Tags','Tags e links','Links e listas','Listas e páginas','Monte sua página'],['Cores e texto','Texto e caixas','Caixas e espaços','Caixas e seletores','Seletores e desafios']];
+  MODS.forEach((m,mi)=>{const all=[].concat(...m.l.map(l=>l.q));m.l=names[mi].map((n,i)=>({n,q:all.slice(i*3,i*3+3)}))});
+  MODS[0].l.push({n:'Listas e funções',q:null});MODS[1].l.push({n:'Formulários',q:null});MODS[2].l.push({n:'Layout com flexbox',q:null});
+  MODS.push({name:'JavaScript Básico',desc:'Variáveis, funções e interatividade',icon:'⚡',pro:true,c:['#0e7490','#155e75'],
+   book:[
+    {h:'O que é JavaScript?',p:'O HTML cria a estrutura, o CSS cuida do visual e o JavaScript faz a página reagir: calcula, decide e responde aos cliques.',code:'console.log("Olá, mundo!");',def:['console.log():','mostra uma mensagem no console, ótimo para testar o código.']},
+    {h:'Variáveis: let e const',code:'let pontos = 0;\npontos = pontos + 10;\nconst nome = "Ana";',ul:['let: valor que pode mudar','const: valor que não muda','Textos ficam entre aspas','Termine os comandos com ;']},
+    {h:'Condições e operadores',code:'if (idade >= 18) {\n  console.log("Maior de idade");\n} else {\n  console.log("Menor de idade");\n}',ul:['=== compara valores (um = só guarda)','&& é E, || é OU, ! é NÃO']},
+    {h:'Funções',code:'function dobro(n) {\n  return n * 2;\n}\nconsole.log(dobro(4)); // 8',def:['Função:','bloco de código com nome que você pode usar quantas vezes quiser.']},
+    {h:'Listas e laços',code:'const nomes = ["Ana", "Beto"];\nconsole.log(nomes[0]); // Ana\n\nfor (let i = 1; i <= 3; i++) {\n  console.log(i);\n}',ul:['A contagem das listas começa no 0','for repete: início; até quando; passo']},
+    {h:'Interatividade',code:'const btn = document.getElementById("btn");\nbtn.addEventListener("click", () => {\n  alert("Oi!");\n});',ul:['getElementById acha um elemento da página','addEventListener escuta um evento, como o click','textContent muda o texto de um elemento']},
+    {tip:'Use console.log para espiar o valor das variáveis. É a forma mais rápida de descobrir o que o código está fazendo!'}],
+   l:['Olá, JavaScript','Variáveis: let e const','Tipos e operações','Condições','Funções','Listas e laços','Interatividade na página'].map(n=>({n,q:null}))});
+  MODS.push({name:'Desafios Práticos',desc:'HTML, CSS e lógica juntos',icon:'🚀',pro:true,c:['#be185d','#831843'],
+   book:[
+    {h:'Juntando as três linguagens',p:'Numa página real, o HTML dá a estrutura, o CSS dá o visual e o JavaScript dá o comportamento.',code:'<button class="btn" id="b">Clique</button>\n<style>.btn { background: #6A5AFF; color: white; }</style>\n<script>\n  document.getElementById("b").onclick = () => alert("Oi!");\n</script>'},
+    {h:'Como pensar em um projeto',ul:['1. Estrutura: quais elementos a página precisa?','2. Estilo: como cada elemento aparece?','3. Comportamento: o que acontece no clique?','Resolva uma parte por vez e teste a cada passo']},
+    {h:'Casando seletores',p:'Classe e id têm seletores diferentes. Confira se o que você escreveu no CSS combina com o atributo do HTML.',code:'.card { }   /* class="card" */\n#menu { }   /* id="menu" */',def:['Dica:','erros de seletor não aparecem como erro: o estilo simplesmente não é aplicado.']},
+    {h:'Depurando',ul:['Leia a mensagem de erro com calma','Use console.log para ver valores','Confira chaves, parênteses e aspas que abrem e fecham']},
+    {tip:'Projetos grandes são vários desafios pequenos juntos. Quando travar, divida o problema em partes menores!'}],
+   l:['Cartão de perfil','Botão interativo','Lista e menu','Lógica na página','Mini-projeto final'].map(n=>({n,q:null}))});
+})();

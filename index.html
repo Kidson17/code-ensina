@@ -19,8 +19,9 @@
   <section>
    <div class="brand"><img src="assets/img/logo-mark.webp" alt="" width="48" height="48">Code Ensina</div>
    <h1>Aprenda a programar jogando.</h1>
-   <p class="sub">Lições rápidas de lógica, HTML e CSS, com XP, sequência de dias e desafios pensados para a sala de aula.</p>
-   <div class="stats3"><div>3<small>módulos</small></div><div>45<small>desafios</small></div><div>⚡ XP<small>e sequência</small></div></div>
+   <p class="sub">Lógica, HTML, CSS e JavaScript em lições rápidas, com a Nyx te guiando. Para estudar sozinho ou levar para a sala de aula.</p>
+   <div class="aud" role="group" aria-label="Escolha como você vai usar"><button class="audbtn a1" onclick="pickAud('solo')"><small>Para você</small><b>Aprenda sozinho</b></button><button class="audbtn a2" onclick="pickAud('school')"><small>Para escolas</small><b>Painel e gestão</b></button></div>
+   <div class="stats3"><div>5<small>módulos</small></div><div>90<small>desafios</small></div><div>⚡ XP<small>e sequência</small></div></div>
    <div class="stage" aria-hidden="true">
     <div class="cube"><div class="f1">&lt;/&gt;</div><div class="f2">{ }</div><div class="f3">( )</div><div class="f4">[ ]</div><div class="f5">=&gt;</div><div class="f6">#</div></div>
     <div class="win"><div class="dots"><i></i><i></i><i></i></div><pre><span class="c">// sua primeira lição</span>
@@ -58,8 +59,8 @@
  <div class="blocks">
   <section class="blk"><p class="eyebrow rv">Como funciona</p><h2 class="rv">Aprender a programar em passos curtos.</h2><p class="lead rv">Cada lição leva poucos minutos e termina com uma recompensa.</p>
    <div class="grid3"><div class="tile rv"><div class="big">&lt;/&gt;</div><h3>Aprenda</h3><p>Perguntas diretas, com exemplos de código fáceis de ler.</p></div><div class="tile rv"><div class="big">{ }</div><h3>Pratique</h3><p>Monte o código na ordem certa e veja o resultado na hora.</p></div><div class="tile rv"><div class="big">++</div><h3>Evolua</h3><p>Ganhe XP, mantenha a sequência de dias e desbloqueie lições.</p></div></div></section>
-  <section class="blk"><p class="eyebrow rv">Trilhas</p><h2 class="rv">Três módulos para começar.</h2><p class="lead rv">Da lógica ao visual de uma página, nessa ordem.</p>
-   <div class="grid3"><div class="tile rv" style="border-top:4px solid #8b5cf6"><div class="big">if</div><h3>Lógica de Programação</h3><p>Algoritmos, variáveis, condições e laços.</p></div><div class="tile rv" style="border-top:4px solid #a855f7"><div class="big">&lt;h1&gt;</div><h3>HTML</h3><p>Tags, links, imagens e listas: o esqueleto do site.</p></div><div class="tile rv" style="border-top:4px solid #d946ef"><div class="big">{ ; }</div><h3>CSS</h3><p>Cores, texto e caixas para dar estilo às páginas.</p></div></div></section>
+  <section class="blk"><p class="eyebrow rv">Trilhas</p><h2 class="rv">Cinco módulos, do zero ao projeto.</h2><p class="lead rv">Da lógica ao JavaScript, passando pelo visual de uma página.</p>
+   <div class="grid3"><div class="tile rv" style="border-top:4px solid #8b5cf6"><div class="big">if</div><h3>Lógica de Programação</h3><p>Algoritmos, variáveis, condições e laços.</p></div><div class="tile rv" style="border-top:4px solid #a855f7"><div class="big">&lt;h1&gt;</div><h3>HTML</h3><p>Tags, links, imagens e listas: o esqueleto do site.</p></div><div class="tile rv" style="border-top:4px solid #d946ef"><div class="big">{ ; }</div><h3>CSS</h3><p>Cores, texto e caixas para dar estilo às páginas.</p></div><div class="tile rv" style="border-top:4px solid #22d3ee"><div class="big">JS</div><h3>JavaScript Básico <em class="pro">PRO</em></h3><p>Variáveis, funções e interatividade.</p></div><div class="tile rv" style="border-top:4px solid #f472b6"><div class="big">🚀</div><h3>Desafios Práticos <em class="pro">PRO</em></h3><p>HTML, CSS e lógica trabalhando juntos.</p></div></div></section>
   <section class="blk"><div class="nyxgrid"><img class="rv nyxfull" src="assets/img/nyx/full.webp" alt="Nyx, a mascote: jovem programadora de cabelo roxo, fones de ouvido e um tablet de código" width="363" height="640" loading="lazy"><div><p class="eyebrow rv">Sua guia</p><h2 class="rv">Conheça a Nyx.</h2><p class="lead rv">Curiosa, esperta e sempre por perto. A Nyx comemora cada acerto, dá dicas quando o código trava e lembra que errar faz parte de aprender.</p><img class="rv" src="assets/img/logo-athenyx.webp" alt="Athenyx" width="170" height="170" style="width:170px;height:auto" loading="lazy"></div></div></section>
   <section class="dw" id="dw"><div class="dsticky">
    <div class="cap">
@@ -74,6 +75,20 @@
   </div></section>
   <section class="blk"><p class="eyebrow rv">Para a escola</p><h2 class="rv">Pensado para a sala de aula.</h2><p class="lead rv">Simples para o aluno, leve para a escola.</p>
    <div class="grid3"><div class="tile rv"><div class="big">[ ]</div><h3>Sem instalar</h3><p>Abre no navegador, no celular ou no computador.</p></div><div class="tile rv"><div class="big">3 min</div><h3>Lições curtas</h3><p>Cabem no intervalo ou nos últimos minutos da aula.</p></div><div class="tile rv"><div class="big">=&gt;</div><h3>Painel do professor</h3><p>Em breve: acompanhar turmas e desempenho.</p></div></div></section>
+  <section class="blk" id="planos"><p class="eyebrow rv">Planos</p><h2 class="rv">Comece grátis. Vá além com o PRO.</h2><p class="lead rv">Os três módulos de fundamentos têm as 5 primeiras lições gratuitas. O PRO libera todo o resto.</p>
+   <div class="grid3 plans"><div class="tile rv"><h3>Grátis</h3><div class="price">R$ 0</div><ul><li>Lógica, HTML e CSS: 5 lições em cada</li><li>15 desafios por módulo, com explicações</li><li>XP, sequência e a Nyx</li></ul><button class="btn" onclick="pickAud('solo')">Começar grátis</button></div>
+   <div class="tile rv feat"><h3>PRO mensal</h3><div class="price">R$ 19,90<small>/mês</small></div><ul><li>Tudo do plano grátis</li><li>JavaScript Básico</li><li>Desafios Práticos Avançados</li><li>Lições extras a partir da 6ª</li></ul><button class="btn" onclick="openPay()">Quero o PRO</button></div>
+   <div class="tile rv feat"><h3>PRO anual</h3><div class="price">R$ 149,90<small>/ano</small></div><ul><li>Equivale a R$ 12,49 por mês</li><li>Economia de 37% sobre o mensal</li><li>Tudo do PRO mensal</li></ul><button class="btn" onclick="openPay()">Quero o PRO anual</button></div></div></section>
+  <section class="blk" id="escolas"><p class="eyebrow rv">Para escolas</p><h2 class="rv">Programação na sala de aula, com acompanhamento.</h2><p class="lead rv">Os alunos aprendem jogando. Você enxerga quem precisa de ajuda.</p>
+   <div class="sgrid"><ul class="schoollist rv"><li>Turmas com código de convite <em class="soon">em breve</em></li><li>Painel com o progresso de cada aluno e da turma <em class="soon">em breve</em></li><li>Onde a turma mais erra, desafio por desafio <em class="soon">em breve</em></li><li>Relatórios para exportar <em class="soon">em breve</em></li><li>Conteúdo em português, da lógica ao JavaScript</li><li>Privacidade de dados tratada desde o desenho do produto</li></ul>
+   <div class="tile rv"><h3>Quero levar para minha escola</h3><p>Estamos abrindo pilotos com escolas. Deixe seu contato.</p>
+    <label for="ld_n">Seu nome</label><input id="ld_n" autocomplete="name" maxlength="100">
+    <label for="ld_e">E-mail</label><input id="ld_e" type="email" autocomplete="email">
+    <label for="ld_s">Escola</label><input id="ld_s" maxlength="150">
+    <label for="ld_r">Seu cargo (opcional)</label><input id="ld_r" maxlength="80">
+    <label for="ld_m">Mensagem (opcional)</label><textarea id="ld_m" rows="3" maxlength="1000"></textarea>
+    <div class="chk"><input id="ld_c" type="checkbox"><label for="ld_c">Concordo em ser contatado(a) sobre o piloto. Usaremos esses dados só para isso.</label></div>
+    <div id="lead_msg" role="status"></div><button class="btn wide" onclick="sendLead()">Quero levar para minha escola</button></div></div></section>
   <section class="blk cta rv"><h2>Pronto para o primeiro nível?</h2><p class="lead">Entre com sua conta e comece pela lógica de programação.</p><button class="btn" onclick="toLogin()">Entrar agora</button></section>
  </div>
 </div>
@@ -97,6 +112,16 @@
 
 <div id="book" hidden role="dialog" aria-modal="true" aria-labelledby="bk_t"><div class="lt"><button class="x" onclick="closeBook()" aria-label="Fechar teoria">✕</button><h2 id="bk_t"></h2></div><main id="bk_b"></main><footer class="ft"><button class="btn wide" onclick="startFromBook()">Começar desafios</button></footer></div>
 <div id="cel" hidden role="alertdialog" aria-modal="true" aria-labelledby="celt" aria-describedby="cels"><div class="celbox"><div class="celico" id="celi" aria-hidden="true">✅</div><h2 id="celt"></h2><p id="cels"></p><button class="btn" id="celb">Continuar</button></div></div>
+<dialog id="pay" class="paydlg" aria-labelledby="payt"><button class="x" aria-label="Fechar" onclick="$('#pay').close()">✕</button>
+ <div class="nyx-dialog sm"><img class="nyxav float" src="assets/img/nyx/incrivel.webp" alt="" width="52" height="52"><div class="bubble"><b id="payt">Libere tudo com o Code Ensina PRO</b><span id="paywhy"></span></div></div>
+ <ul class="benef"><li>JavaScript Básico: variáveis, funções e interatividade</li><li>Desafios Práticos Avançados: HTML, CSS e lógica juntos</li><li>Lições extras de Lógica, HTML e CSS (a partir da 6ª)</li><li><b id="paynum">45</b> desafios exclusivos, com explicações</li></ul>
+ <div class="plansel" role="radiogroup" aria-label="Escolha o plano">
+  <label class="pc"><input type="radio" name="plan" value="annual" checked><span><b>Anual · R$ 149,90</b><small>R$ 12,49 por mês · economia de 37%</small></span><em class="best">Melhor valor</em></label>
+  <label class="pc"><input type="radio" name="plan" value="monthly"><span><b>Mensal · R$ 19,90</b><small>cobrado todo mês</small></span></label></div>
+ <div id="paymsg" role="status"></div>
+ <button class="btn wide" id="paygo" onclick="payGo()">Assinar PRO</button>
+ <p class="payfine">Menores de 18 anos: peça ajuda ao responsável para assinar. Cancele quando quiser.</p>
+ <div class="row"><button class="btn ghost" onclick="$('#pay').close()">Agora não</button></div></dialog>
 <dialog id="priv" aria-labelledby="pvt"><h3 id="pvt">Política de Privacidade</h3>
  <p><b>O que guardamos:</b> apelido, nome, e-mail, data de nascimento e seu progresso (lições, XP e sequência). Para menores de 13 anos, também o e-mail do responsável.</p>
  <p><b>Para quê:</b> criar sua conta, salvar seu progresso e, no futuro, permitir que seu professor acompanhe a turma. Não vendemos seus dados nem os usamos para publicidade.</p>
@@ -118,5 +143,6 @@
 <script src="js/content.js"></script>
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>
+<script src="js/pro.js"></script>
 </body>
 </html>

@@ -246,3 +246,40 @@ dialog .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin
 @keyframes celpop{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
 .celbox h2{font-size:30px;margin:10px 0 6px;font-weight:900;color:#fff}.celbox p{margin:0 0 20px;color:#ddd6fe;font-size:18px}
 .fb span{line-height:1.4}
+
+/* ===== Público, planos e PRO ===== */
+.aud{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 4px}
+.audbtn{flex:1 1 220px;text-align:left;border:0;border-radius:18px;padding:14px 18px;color:#fff;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
+.audbtn small{display:block;font:800 12px Nunito,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.audbtn b{display:block;font-size:19px;font-weight:900;margin-top:2px}
+.audbtn.a1{background:linear-gradient(135deg,#6A5AFF,#8a4bff);box-shadow:0 5px 0 #3b2fb8}
+.audbtn.a2{background:rgba(255,255,255,.1);border:2px solid rgba(0,245,255,.55);box-shadow:0 5px 0 rgba(0,245,255,.25)}
+@media(hover:hover){.audbtn:hover{transform:translateY(-3px)}}
+.audbtn:active{transform:translateY(3px);transition-duration:.04s}
+em.pro{font:900 10px Nunito,sans-serif;letter-spacing:.08em;background:#F5B50A;color:#241046;border-radius:6px;padding:2px 6px;font-style:normal;vertical-align:middle}
+em.soon{font:800 11px Nunito,sans-serif;color:#0b0720;background:#00F5FF;border-radius:6px;padding:1px 7px;font-style:normal;margin-left:6px;white-space:nowrap}
+.node.pro{background:linear-gradient(160deg,#6A5AFF,#B84BFF);box-shadow:0 7px 0 #3b2fb8}
+.plans .tile{display:flex;flex-direction:column;gap:6px}.plans ul{padding-left:18px;line-height:1.7;color:#ddd6fe;margin:6px 0 14px;flex:1}
+.plans .feat{border-color:rgba(245,181,10,.6)}
+.price{font:900 34px Nunito,sans-serif;margin:4px 0}.price small{font-size:15px;color:#c4b5fd;font-weight:700}
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.schoollist{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.schoollist li{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px 16px;line-height:1.4}
+#escolas label{display:block;font-weight:800;font-size:14px;margin:12px 0 6px}
+#escolas .chk label{margin:0;font-weight:700}
+#escolas input:not([type=checkbox]),#escolas textarea{width:100%;font:700 16px Nunito,sans-serif;color:#fff;background:rgba(13,4,32,.65);border:2px solid rgba(196,181,253,.35);border-radius:14px;padding:12px 14px}
+#escolas input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:#6A5AFF}
+#lead_msg,#paymsg{min-height:22px;margin:10px 0 6px;font-weight:800;font-size:14px;color:#bbf7d0}
+@media(max-width:820px){.sgrid{grid-template-columns:1fr}}
+.paydlg{position:relative}.paydlg .x{position:absolute;top:12px;right:14px;background:none;border:0;color:var(--mut);font-size:22px;cursor:pointer}
+.benef{padding-left:20px;line-height:1.7;margin:10px 0 14px}
+.plansel{display:grid;gap:10px;margin-bottom:6px}
+.pc{position:relative;display:flex;align-items:center;gap:10px;cursor:pointer;margin:0!important}
+.pc input{position:absolute;opacity:0;width:0;height:0}
+.pc span{flex:1;display:block;border:2px solid var(--line);border-radius:16px;padding:12px 14px}
+.pc span b{display:block;font-size:17px;color:var(--ink)}.pc span small{color:var(--mut);font-weight:700}
+.pc input:checked+span{border-color:#6A5AFF;background:rgba(106,90,255,.18)}
+.pc input:focus-visible+span{outline:3px solid #00F5FF;outline-offset:2px}
+.pc .best{position:absolute;right:12px;top:-9px;font:900 11px Nunito,sans-serif;font-style:normal;background:#F5B50A;color:#241046;border-radius:8px;padding:2px 8px}
+.payfine{font-size:13px;margin:10px 0 0;text-align:center}
+.btn.ghost{background:none;box-shadow:none;color:var(--mut)}

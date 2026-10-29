@@ -21,3 +21,8 @@ usuário `admin` / senha `admin` (apenas demonstração)
 - Em Authentication > URL Configuration, defina Site URL e Redirect URLs como a URL do GitHub Pages.
 
 - `js/content.js`: teoria (e-book) e todos os desafios de cada módulo (edite aqui para criar novas questões)
+
+## Conteúdo PRO e assinaturas
+- `supabase-update-pro.sql`: rode depois do `supabase-schema.sql` (assinaturas, `is_pro`, progresso, leads).
+- Os desafios PRO ficam no banco (tabela `pro_lessons`, protegida por RLS), e NÃO neste repositório.
+- A pasta `pro-source/` (ignorada pelo Git) tem a fonte dos desafios PRO e o gerador do SQL.

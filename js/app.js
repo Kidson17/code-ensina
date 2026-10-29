@@ -14,10 +14,10 @@ function home(){
   $('#xp').textContent=S.xp;$('#st').textContent=S.streak;
   $('#home').innerHTML=MODS.map((m,mi)=>{
     const n=m.l.filter((_,li)=>S.done[mi+'-'+li]).length;
-    return `<section class="mod" style="--g1:${m.c[0]};--g2:${m.c[1]}"><div class="ban"><div><h2>${m.name}</h2><p>${m.desc} · ${n}/${m.l.length} lições</p></div><span class="ico">${m.icon}</span></div><button class="bookbtn" onclick="openBook(${mi})"><span aria-hidden="true">📖</span> Ler teoria do módulo <small>~3 min</small></button><div class="path">`+
+    return `<section class="mod" style="--g1:${m.c[0]};--g2:${m.c[1]}"><div class="ban"><div><h2>${m.name}${m.pro?' <em class="pro">PRO</em>':''}</h2><p>${m.desc} · ${n}/${m.l.length} lições</p></div><span class="ico">${m.icon}</span></div><button class="bookbtn" onclick="openBook(${mi})"><span aria-hidden="true">📖</span> Ler teoria do módulo <small>~3 min</small></button><div class="path">`+
     m.l.map((l,li)=>{
-      const done=S.done[mi+'-'+li],open=li==0||S.done[mi+'-'+(li-1)];
-      return `<div class="nw" style="--x:${[0,-34,34][li%3]}px"><button class="node ${done?'done':open?'cur':'lock'}" ${open?'':'disabled'} onclick="start(${mi},${li})" aria-label="${l.n}">${done?'✓':open?'★':'🔒'}</button><span class="nl">${l.n}</span></div>`}).join('')+'</div></section>'}).join('');
+      const pro=needsPro(mi,li),pay=pro&&!isPro(),done=S.done[mi+'-'+li],open=pay||li==0||S.done[mi+'-'+(li-1)];
+      return `<div class="nw" style="--x:${[0,-34,34][li%3]}px"><button class="node ${done?'done':pay?'pro':open?'cur':'lock'}" ${open?'':'disabled'} onclick="start(${mi},${li})" aria-label="${l.n}${pay?' (conteúdo PRO)':''}">${done?'✓':pay?'👑':open?'★':'🔒'}</button><span class="nl">${l.n}${pro?' <em class="pro">PRO</em>':''}</span></div>`}).join('')+'</div></section>'}).join('');
 }
 
 let L;
@@ -189,8 +189,8 @@ function nyxTip(q){
 {const c=check;check=function(){const q=L.queue[0];c();if(L.res&&!L.res.ok)(L.ms=L.ms||new Set()).add(q)}}
 function nyxHero(){
   if(!$('#nyxh'))return;
-  const n=Object.keys(S.done).length,tot=MODS.reduce((a,m)=>a+m.l.length,0);
-  const [i,t,m]=n==0?['feliz','Oi, eu sou a Nyx!','Pronto para codar hoje? Escolha uma lição e vamos juntos.']:n<tot?['bora','Bora codar!',`Você já fez ${n} de ${tot} lições${S.streak>1?' e está há '+S.streak+' dias seguidos':''}. Continue assim!`]:['incrivel','Você é incrível!','Completou todas as lições. Em breve teremos mais missões.'];
+  const n=Object.keys(S.done).length,tot=MODS.reduce((a,m,mi)=>a+m.l.filter((_,li)=>!needsPro(mi,li)||isPro()).length,0);
+  const [i,t,m]=n==0?['feliz','Oi, eu sou a Nyx!','Pronto para codar hoje? Escolha uma lição e vamos juntos.']:n<tot?['bora','Bora codar!',`Você já fez ${n} de ${tot} lições${S.streak>1?' e está há '+S.streak+' dias seguidos':''}. Continue assim!`]:['incrivel','Você é incrível!',(isPro()?'Completou todas as lições disponíveis. Mais missões chegando!':'Você concluiu as lições gratuitas! Conheça o PRO para continuar.')];
   $('#nyxh').src=NYX[i];$('#nyxt').textContent=(window.ME&&n==0)?'Oi, '+ME.nickname+'! Eu sou a Nyx.':t;$('#nyxm').textContent=m;
 }
 {const hm=home;home=function(){hm();nyxHero()}}
@@ -236,9 +236,9 @@ function celebrate(o){
 }
 function hideCel(){clearTimeout(celT);if($('#cel').hidden)return;$('#cel').hidden=true;const f=celCb;celCb=null;f&&f()}
 {const e=end;end=function(w){
-  const m=MODS[L.mi],key=L.mi+'-'+L.li,was=!!S.done[key],wasAll=m.l.every((_,i)=>S.done[L.mi+'-'+i]),before=S.xp;
+  const m=MODS[L.mi],key=L.mi+'-'+L.li,was=!!S.done[key],wasAll=modDone(L.mi),before=S.xp;
   e(w);if(!w)return;
-  const all=m.l.every((_,i)=>S.done[L.mi+'-'+i]),first=!was&&Object.keys(S.done).length==1;
+  const all=modDone(L.mi),first=!was&&Object.keys(S.done).length==1;
   const [ico,title]=all&&!wasAll?['🏆','Módulo concluído!']:first?['✨','Primeira lição concluída!']:L.miss==0?['🌟','Sem nenhum erro!']:['✅','Lição concluída!'];
   celebrate({ico,title,sub:'+'+(S.xp-before)+' XP · '+(all&&!wasAll?m.name:'continue assim!')});
 }}
@@ -256,4 +256,11 @@ function closeBook(){$('#book').hidden=true}
 function startFromBook(){const mi=BK;closeBook();const li=MODS[mi].l.findIndex((_,i)=>!S.done[mi+'-'+i]);start(mi,li<0?0:li)}
 addEventListener('keydown',e=>{if(e.key=='Escape'){if(!$('#book').hidden)closeBook();else if(!$('#cel').hidden)hideCel()}});
 $('#cel').addEventListener('click',e=>{if(e.target.id=='cel'||e.target.id=='celb')hideCel()});
+home();
+
+/* ===== Regras de acesso: grátis x PRO ===== */
+// Grátis: as 5 primeiras lições de Lógica, HTML e CSS. PRO: da 6ª lição em diante e os módulos PRO.
+function needsPro(mi,li){return !!MODS[mi].pro||li>=5}
+function isPro(){return !!(window.ME&&ME.pro)}
+function modDone(mi){return MODS[mi].l.every((_,i)=>(needsPro(mi,i)&&!isPro())||S.done[mi+'-'+i])}
 home();
