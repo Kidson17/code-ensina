@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.vscode/
+
+# Conteúdo PRO privado (NUNCA publicar)
+pro-source/

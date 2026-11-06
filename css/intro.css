@@ -1,0 +1,48 @@
+/* Code Ensina: DIGITAL PORTAL (abertura). A camada só existe quando <html> tem a classe ce-intro-on. */
+#ce-intro{display:none}
+html.ce-intro-on{overflow:hidden}
+html.ce-intro-on #ce-intro{
+  display:block;position:fixed;inset:0;z-index:2147483000;overflow:visible;will-change:transform;
+  background:radial-gradient(ellipse at 50% 46%,#0b1236 0%,#050816 58%,#03040d 100%);
+  -webkit-tap-highlight-color:transparent;
+}
+#ce-intro canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#ce-intro .ce-logo{
+  position:absolute;left:50%;top:46%;width:clamp(44px,11vmin,92px);height:auto;pointer-events:none;
+  transform:translate(-50%,-50%) scale(.6);opacity:0;
+  transition:opacity .6s ease,transform .8s cubic-bezier(.2,1.2,.4,1);
+  filter:drop-shadow(0 0 12px rgba(0,245,255,.85)) drop-shadow(0 0 28px rgba(184,75,255,.7));
+}
+#ce-intro.p2 .ce-logo{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#ce-intro.out .ce-logo{opacity:0;transition-duration:.35s}
+#ce-intro .ce-txt{position:absolute;left:0;right:0;top:calc(46% + 23vmin);padding:0 22px;text-align:center;pointer-events:none;transition:opacity .35s ease}
+#ce-intro .ce-title{
+  margin:0;font:800 clamp(13px,2.6vw,24px)/1.35 "Fira Code",ui-monospace,Menlo,monospace;letter-spacing:.26em;color:#e8fbff;
+  text-shadow:0 0 14px rgba(0,245,255,.8),0 0 30px rgba(106,90,255,.7);
+  opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease;
+}
+#ce-intro .ce-sub{
+  margin:12px 0 0;font:700 clamp(10px,1.7vw,14px)/1.5 Nunito,system-ui,sans-serif;letter-spacing:.18em;color:#c4b5fd;
+  opacity:0;transform:translateY(6px);transition:opacity .5s ease .25s,transform .5s ease .25s;
+}
+#ce-intro.p2 .ce-title,#ce-intro.p2 .ce-sub{opacity:1;transform:none}
+#ce-intro.out .ce-txt{opacity:0}
+/* Cortina: a camada inteira desce e revela o app de cima para baixo */
+#ce-intro .ce-edge{
+  position:absolute;left:0;right:0;top:0;height:3px;opacity:0;transition:opacity .3s ease;
+  background:linear-gradient(90deg,transparent,#00F5FF 18%,#B84BFF 50%,#00F5FF 82%,transparent);
+  box-shadow:0 0 26px 8px rgba(0,245,255,.5),0 0 60px 16px rgba(106,90,255,.45);
+}
+#ce-intro .ce-drips{position:absolute;left:0;right:0;bottom:100%;height:0;pointer-events:none}
+#ce-intro .ce-drips i{
+  position:absolute;bottom:0;width:2px;border-radius:2px;opacity:0;transform-origin:50% 100%;transform:scaleY(.1);
+  background:linear-gradient(0deg,rgba(0,245,255,.95),rgba(106,90,255,.55) 45%,transparent);
+}
+html.ce-intro-on #ce-intro.go{
+  transform:translate3d(0,calc(100% + 180px),0);
+  transition:transform 1s cubic-bezier(.76,0,.24,1);
+}
+#ce-intro.go .ce-edge{opacity:1}
+#ce-intro.go .ce-drips i{animation:ce-drip 1s ease-out both;animation-delay:var(--d,0s)}
+@keyframes ce-drip{0%{opacity:0;transform:scaleY(.1)}20%{opacity:.95;transform:scaleY(1)}75%{opacity:.8}100%{opacity:0;transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){html.ce-intro-on #ce-intro{display:none!important}html.ce-intro-on{overflow:auto}}
