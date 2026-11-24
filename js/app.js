@@ -14,10 +14,10 @@ function home(){
   $('#xp').textContent=S.xp;$('#st').textContent=S.streak;
   $('#home').innerHTML=MODS.map((m,mi)=>{
     const n=m.l.filter((_,li)=>S.done[mi+'-'+li]).length;
-    return `<section class="mod" style="--g1:${m.c[0]};--g2:${m.c[1]}"><div class="ban"><div><h2>${m.name}${m.pro?' <em class="pro">PRO</em>':''}</h2><p>${m.desc} · ${n}/${m.l.length} lições</p></div><span class="ico">${m.icon}</span></div><button class="bookbtn" onclick="openBook(${mi})"><span aria-hidden="true">📖</span> Ler teoria do módulo <small>~3 min</small></button><div class="path">`+
+    return `<section class="mod" style="--g1:${m.c[0]};--g2:${m.c[1]}"><div class="ban"><div><h2>${MN(mi)}${m.pro?' <em class="pro">PRO</em>':''}</h2><p>${MD(mi)} · ${t('{0}/{1} lessons',n,m.l.length)}</p></div><span class="ico">${m.icon}</span></div><button class="bookbtn" onclick="openBook(${mi})"><span aria-hidden="true">📖</span> ${t('Read the module theory')} <small>~3 min</small></button><div class="path">`+
     m.l.map((l,li)=>{
       const pro=needsPro(mi,li),pay=pro&&!isPro(),done=S.done[mi+'-'+li],open=pay||li==0||S.done[mi+'-'+(li-1)];
-      return `<div class="nw" style="--x:${[0,-34,34][li%3]}px"><button class="node ${done?'done':pay?'pro':open?'cur':'lock'}" ${open?'':'disabled'} onclick="start(${mi},${li})" aria-label="${l.n}${pay?' (conteúdo PRO)':''}">${done?'✓':pay?'👑':open?'★':'🔒'}</button><span class="nl">${l.n}${pro?' <em class="pro">PRO</em>':''}</span></div>`}).join('')+'</div></section>'}).join('');
+      return `<div class="nw" style="--x:${[0,-34,34][li%3]}px"><button class="node ${done?'done':pay?'pro':open?'cur':'lock'}" ${open?'':'disabled'} onclick="start(${mi},${li})" aria-label="${LN(mi,li)}${pay?' '+t('(PRO content)'):''}">${done?'✓':pay?'👑':open?'★':'🔒'}</button><span class="nl">${LN(mi,li)}${pro?' <em class="pro">PRO</em>':''}</span></div>`}).join('')+'</div></section>'}).join('');
 }
 
 let L;
@@ -39,17 +39,17 @@ function draw(){
   $('#hr').textContent='❤️ '+L.hearts;
   let h=(L.tip||'')+`<h3 class="qt">${esc(q.q)}</h3>`;
   if(q.code)h+=q.t=='fill'?fillCode(q):`<pre class="code">${esc(q.code)}</pre>`;
-  if(q.prev)h+=`<div class="pv"><small>Prévia no navegador</small><iframe sandbox id="pv" title="Prévia"></iframe></div>`;
+  if(q.prev)h+=`<div class="pv"><small>${t('Browser preview')}</small><iframe sandbox id="pv" title="${t('Preview')}"></iframe></div>`;
   if(q.t=='mc'){
     h+='<div class="opts">'+L.opts.map((o,i)=>`<button class="opt ${/[<>{};]|: /.test(o.t)?'mono':''} ${L.sel===i?'sel':''} ${L.res&&o.c?'right':''} ${L.res&&L.sel===i&&!o.c?'wrong':''}" onclick="selOpt(${i})" ${L.res?'disabled':''}>${esc(o.t)}</button>`).join('')+'</div>';
   }else{
-    h+=`<div class="slots" aria-label="Sua resposta">${L.ans.map(c=>`<button class="chip" onclick="mv(${c.i},0)" ${L.res?'disabled':''}>${esc(c.t)}</button>`).join('')}</div><div class="pool">${L.pool.map(c=>`<button class="chip" onclick="mv(${c.i},1)">${esc(c.t)}</button>`).join('')}</div>`;
+    h+=`<div class="slots" aria-label="${t('Your answer')}">${L.ans.map(c=>`<button class="chip" onclick="mv(${c.i},0)" ${L.res?'disabled':''}>${esc(c.t)}</button>`).join('')}</div><div class="pool">${L.pool.map(c=>`<button class="chip" onclick="mv(${c.i},1)">${esc(c.t)}</button>`).join('')}</div>`;
   }
   $('#qa').innerHTML=h;
   if(q.prev)$('#pv').srcdoc='<body style="margin:12px;font-family:sans-serif">'+q.prev;
   const ready=q.t=='mc'?L.sel!==null:q.t=='fill'?L.ans.length==q.ans.length:L.ans.length>0;
   $('#ft').className='ft '+(L.res?(L.res.ok?'good':'bad'):'');
-  $('#ft').innerHTML=L.res?`<img class="nyxav" src="${NYX[L.res.ok?rnd(['otimo','orgulhosa','confiante']):'pensativa']}" alt="" width="56" height="56"><div class="fb"><strong>${L.res.ok?rnd(['Isso aí!','Mandou bem!','Correto!']):'Quase lá!'}</strong><span>${esc(L.res.msg)}</span></div><button class="btn ${L.res.ok?'':'red'}" onclick="next()">Continuar</button>`:`<button class="btn wide" onclick="check()" ${ready?'':'disabled'}>Verificar</button>`;
+  $('#ft').innerHTML=L.res?`<img class="nyxav" src="${NYX[L.res.ok?rnd(['otimo','orgulhosa','confiante']):'pensativa']}" alt="" width="56" height="56"><div class="fb"><strong>${L.res.ok?rnd([t("That's it!"),t('Nailed it!'),t('Correct!')]):t('Almost there!')}</strong><span>${esc(L.res.msg)}</span></div><button class="btn ${L.res.ok?'':'red'}" onclick="next()">${t('Continue')}</button>`:`<button class="btn wide" onclick="check()" ${ready?'':'disabled'}>${t('Check')}</button>`;
 }
 function selOpt(i){if(!L.res){L.sel=i;draw()}}
 function mv(i,fromPool){
@@ -61,7 +61,7 @@ function check(){
   const q=L.queue[0];let ok,right;
   if(q.t=='mc'){ok=L.opts[L.sel].c;right=q.o[0]}
   else if(q.t=='fill'){ok=L.ans.length==q.ans.length&&L.ans.every((c,i)=>c.t==q.ans[i]);right=q.ans.join('  ')}else{ok=L.ans.length==q.parts.length&&L.ans.every((c,i)=>c.i==i);right=q.parts.join(' ')}
-  L.res={ok,msg:ok?(q.why||''):'Resposta certa: '+right+(q.why?'. '+q.why:'')};
+  L.res={ok,msg:ok?(q.why||''):t('Correct answer: ')+right+(q.why?'. '+q.why:'')};
   if(ok)L.ok++;else{L.hearts--;L.miss++}
   draw();
 }
@@ -80,27 +80,20 @@ function end(win){
     if(S.last!=t){const y=new Date(Date.now()-864e5).toISOString().slice(0,10);S.streak=S.last==y?S.streak+1:1;S.last=t}
     save();
   }
-  $('#qa').innerHTML=`<div class="end"><img class="nyxbig float" src="${win?NYX.missao:NYX.pensativa}" alt="" width="150" height="150"><h2>${win?'Missão concluída!':'Acabaram as vidas'}</h2><p>${win?'A Nyx diz: você está pegando o jeito. Continue assim!':'A Nyx diz: errar faz parte de aprender. Revise e tente de novo!'}</p>${win?`<div class="stats"><div class="stat"><small>XP ganho</small>⚡ ${gain}</div><div class="stat"><small>Acertos</small>${Math.round(L.total/(L.total+L.miss)*100)}%</div></div>`:''}</div>`;
+  $('#qa').innerHTML=`<div class="end"><img class="nyxbig float" src="${win?NYX.missao:NYX.pensativa}" alt="" width="150" height="150"><h2>${win?t('Mission complete!'):t('Out of hearts')}</h2><p>${win?t('Nyx says: you are getting the hang of it. Keep it up!'):t('Nyx says: mistakes are part of learning. Review and try again!')}</p>${win?`<div class="stats"><div class="stat"><small>${t('XP earned')}</small>⚡ ${gain}</div><div class="stat"><small>${t('Accuracy')}</small>${Math.round(L.total/(L.total+L.miss)*100)}%</div></div>`:''}</div>`;
   $('#ft').className='ft';
-  $('#ft').innerHTML=win?`<button class="btn wide" onclick="closeL()">Continuar</button>`:`<button class="btn wide" onclick="start(${L.mi},${L.li})">Tentar de novo</button>`;
+  $('#ft').innerHTML=win?`<button class="btn wide" onclick="closeL()">${t('Continue')}</button>`:`<button class="btn wide" onclick="start(${L.mi},${L.li})">${t('Try again')}</button>`;
 }
 document.addEventListener('keydown',e=>{
   if(e.key=='Enter'&&!$('#les').hidden){const b=$('#ft .btn:not(:disabled)');if(b&&document.activeElement.tagName!='BUTTON'){b.click()}}
 });
 (function(){
   const lg=$('#login');
-  ['</>','{ }','( )','[ ]','=>','&&','!=','#','//','++','$','%','fn()','0101','if','=','*',';','<div>','</p>','color:','px','[0]'].forEach((s,i)=>{
-    const e=document.createElement('div');e.className='sy';
-    e.style.cssText=`left:${(i*37+11)%94}%;top:${(i*53+7)%90}%;--d:${(i%5+1)*6};font-size:${16+(i*13)%38}px;opacity:${.18+(i%4)*.09};filter:blur(${i%5==0?2:0}px)`;
-    const p=document.createElement('span');p.textContent=s;p.style.animationDuration=(5+i%4*2)+'s';p.style.animationDelay=-i*.7+'s';
-    e.appendChild(p);$('#syms').appendChild(e);
-  });
-  lg.addEventListener('pointermove',e=>{lg.style.setProperty('--mx',(e.clientX/innerWidth-.5)*2);lg.style.setProperty('--my',(e.clientY/innerHeight-.5)*2)});
   const auth=()=>{try{return localStorage.getItem('code_auth')=='1'}catch(e){return false}};
   
   window.doLogin=()=>{
     if($('#lu').value.trim()=='admin'&&$('#lp').value=='admin'){try{localStorage.setItem('code_auth','1')}catch(e){}$('#lerr').textContent='';lg.hidden=true;home()}
-    else $('#lerr').textContent='Usuário ou senha incorretos. Tente admin / admin.';
+    else $('#lerr').textContent=t('Incorrect username or password. Try admin / admin.');
   };
   window.logout=()=>{try{localStorage.removeItem('code_auth')}catch(e){}$('#lp').value='';lg.hidden=false};
   ['#lu','#lp'].forEach(s=>$(s).addEventListener('keydown',e=>{if(e.key=='Enter')doLogin()}));
@@ -109,18 +102,11 @@ document.addEventListener('keydown',e=>{
   const RM=matchMedia('(prefers-reduced-motion:reduce)').matches,FINE=matchMedia('(hover:hover) and (pointer:fine)').matches,lg=$('#login');
   document.addEventListener('touchstart',()=>{},{passive:true});
   const _ck=check;check=function(){_ck();if(L.res&&!L.res.ok&&navigator.vibrate)navigator.vibrate(60)};
-  const _end=end;end=function(w){_end(w);if(w&&!RM)for(let i=0;i<32;i++){const c=document.createElement('i');c.className='cf';c.style.cssText=`left:${Math.random()*100}%;background:${rnd(['#7c3aed','#c084fc','#f5b50a','#f0abfc','#fff'])};--dx:${Math.random()*160-80}px;--r:${Math.random()*720}deg;animation-delay:${Math.random()*.4}s`;document.body.appendChild(c);setTimeout(()=>c.remove(),2200)}};
-  if(FINE){const c=document.createElement('div');c.id='cur';c.setAttribute('aria-hidden','true');document.body.appendChild(c);let x=-50,y=-50,tx=x,ty=y;
-    addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;c.style.opacity=1});
-    addEventListener('pointerover',e=>c.classList.toggle('on',!!e.target.closest('button,input,.opt,.chip,.tile')));
-    (function f(){const k=RM?1:.22;x+=(tx-x)*k;y+=(ty-y)*k;c.style.transform=`translate(${x-17}px,${y-17}px)`;requestAnimationFrame(f)})();}
-  window.toLogin=()=>{window.__lenis?__lenis.scrollTo(0):lg.scrollTo({top:0,behavior:RM?'auto':'smooth'});setTimeout(()=>$('#lu').focus({preventScroll:true}),600)};
+  const _end=end;end=function(w){_end(w);if(w&&!RM)for(let i=0;i<32;i++){const c=document.createElement('i');c.className='cf';c.style.cssText=`left:${Math.random()*100}%;background:${rnd(['#9B7BFF','#67E8F9','#F3C969','#50D6A0','#F4F1FA'])};--dx:${Math.random()*160-80}px;--r:${Math.random()*720}deg;animation-delay:${Math.random()*.4}s`;document.body.appendChild(c);setTimeout(()=>c.remove(),2200)}};
+  window.toLogin=()=>{lg.scrollTo({top:0,behavior:RM?'auto':'smooth'});setTimeout(()=>$('#lu').focus({preventScroll:true}),600)};
   if(RM||!window.gsap||!window.ScrollTrigger){$('#dw').classList.add('static');return}
   gsap.registerPlugin(ScrollTrigger);ScrollTrigger.defaults({scroller:lg});
-  if(window.Lenis&&FINE){try{const l=new Lenis({wrapper:lg,content:lg,duration:1.1});window.__lenis=l;l.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>l.raf(t*1000));gsap.ticker.lagSmoothing(0)}catch(e){window.__lenis=null}}
   gsap.utils.toArray('.rv').forEach(el=>gsap.from(el,{y:40,opacity:0,duration:.7,ease:'power3.out',clearProps:'transform,opacity',scrollTrigger:{trigger:el,start:'top 90%'}}));
-  gsap.to('.stage',{yPercent:-14,ease:'none',scrollTrigger:{trigger:'.lg',start:'top top',end:'bottom top',scrub:.6}});
-  gsap.to('#syms',{y:-160,ease:'none',scrollTrigger:{trigger:'.blocks',start:'top bottom',end:'bottom bottom',scrub:.8}});
   const P=gsap.utils.toArray('.dp'),S=gsap.utils.toArray('.ds'),C=gsap.utils.toArray('.cap>div');
   gsap.set(S,{opacity:0,y:10,scale:.9});gsap.set([C[1],C[2]],{opacity:0});gsap.set('#dfb',{yPercent:100});gsap.set('#dbar',{width:0});
   const tl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#dw',start:'top top',end:'bottom bottom',scrub:.5}});
@@ -133,49 +119,11 @@ document.addEventListener('keydown',e=>{
 })();
 home();
 
-/* ===== 3D arrastável (Three.js), tilt dos cards e barra de progresso ===== */
+/* ===== Barra de progresso de rolagem da landing ===== */
 (function(){
-  const RM=matchMedia('(prefers-reduced-motion:reduce)').matches,FINE=matchMedia('(hover:hover) and (pointer:fine)').matches,lg=$('#login');
+  const lg=$('#login');
   const sp=document.createElement('div');sp.id='sp';sp.setAttribute('aria-hidden','true');lg.appendChild(sp);
   lg.addEventListener('scroll',()=>{sp.style.transform='scaleX('+(lg.scrollTop/Math.max(1,lg.scrollHeight-lg.clientHeight))+')'},{passive:true});
-  if(FINE&&!RM)document.querySelectorAll('.tile').forEach(t=>{
-    t.addEventListener('pointermove',e=>{const b=t.getBoundingClientRect();t.style.setProperty('--ry',((e.clientX-b.left)/b.width-.5)*10+'deg');t.style.setProperty('--rx',(.5-(e.clientY-b.top)/b.height)*10+'deg')});
-    t.addEventListener('pointerleave',()=>{t.style.removeProperty('--rx');t.style.removeProperty('--ry')});
-  });
-  const st=$('.stage');if(!st||!window.THREE)return;
-  const build=()=>{try{
-    const cv=document.createElement('canvas');cv.id='gl';cv.setAttribute('aria-hidden','true');st.appendChild(cv);
-    const r=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});r.setPixelRatio(Math.min(devicePixelRatio,1.5));
-    const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,50);cam.position.z=8;
-    sc.add(new THREE.AmbientLight(0xc4b5fd,.85));const pl=new THREE.PointLight(0xffffff,1.3);pl.position.set(4,4,6);sc.add(pl);
-    const face=t=>{const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,256,256);
-      g.addColorStop(0,'#8b5cf6');g.addColorStop(1,'#4c1d95');x.fillStyle=g;x.fillRect(0,0,256,256);
-      x.strokeStyle='rgba(237,233,254,.7)';x.lineWidth=8;x.strokeRect(6,6,244,244);
-      x.fillStyle='#fff';x.font='500 80px "Fira Code",monospace';x.textAlign='center';x.textBaseline='middle';x.fillText(t,128,132);
-      return new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(c),roughness:.35,metalness:.2})};
-    const geo=new THREE.BoxGeometry(2.2,2.2,2.2),grp=new THREE.Group();
-    grp.add(new THREE.Mesh(geo,['</>','{ }','( )','[ ]','=>','#'].map(face)));
-    grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:0xede9fe})));
-    sc.add(grp);grp.rotation.set(-.35,.6,0);
-    const sat=new THREE.Group(),sm=new THREE.MeshStandardMaterial({color:0xf5b50a,roughness:.3});
-    [[2.2,.2,0],[-2.0,.7,.8]].forEach(p=>{const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.22,0),sm);m.position.set(...p);sat.add(m)});sc.add(sat);
-    const size=()=>{const w=cv.clientWidth,h=cv.clientHeight;if(w){r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}};
-    size();addEventListener('resize',size);
-    let vx=.003,vy=.006,drag=false,px=0,py=0,vis=true,run=false;
-    const draw=()=>r.render(sc,cam);
-    cv.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);cv.classList.add('drag')});
-    cv.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-px,dy=e.clientY-py;px=e.clientX;py=e.clientY;
-      grp.rotation.y+=dx*.01;grp.rotation.x+=dy*.01;vy=dx*.01;vx=dy*.01;if(RM)draw()});
-    ['pointerup','pointercancel'].forEach(n=>cv.addEventListener(n,()=>{drag=false;cv.classList.remove('drag')}));
-    const loop=()=>{if(!vis||lg.hidden){run=false;return}
-      if(!drag){grp.rotation.y+=vy;grp.rotation.x+=vx;vy+=(.006-vy)*.02;vx+=(.003-vx)*.02}
-      sat.rotation.y+=.012;draw();requestAnimationFrame(loop)};
-    const go=()=>{if(RM){size();draw();return}if(!run&&vis&&!lg.hidden){run=true;requestAnimationFrame(loop)}};
-    new IntersectionObserver(es=>{vis=es[0].isIntersecting;go()}).observe(cv);
-    const h=document.createElement('div');h.className='hint3d';h.setAttribute('aria-hidden','true');h.textContent='\u2194 arraste o cubo';st.appendChild(h);
-    st.classList.add('gl-on');go();
-  }catch(e){const c=$('#gl');if(c)c.remove()}};
-  (document.fonts&&document.fonts.load?document.fonts.load('500 80px "Fira Code"'):Promise.resolve()).then(build,build);
 })();
 
 /* ===== Nyx: mascote e guia ===== */
@@ -183,45 +131,45 @@ const NYX=Object.fromEntries(['feliz','pensativa','pocada','surpresa','confiante
 function nyxTip(q){
   const again=L.ms&&L.ms.has(q);
   if(!again&&!(L.ok==0&&L.miss==0))return '';
-  const msg=again?rnd(['Quase lá! Respire e leia de novo, devagar.','Essa voltou para você tentar de novo. Você consegue!','Errar faz parte. Veja o que mudou e tente outra vez.']):q.t=='ord'?rnd(['Comece pelo que vem primeiro. A ordem importa!','O que abre vem antes do que fecha.']):q.code?'Leia o código linha por linha, como o computador faria.':'Elimine primeiro as opções que parecem estranhas.';
-  return `<div class="nyx-dialog tip"><img class="nyxav float" src="${NYX[again?'pensativa':'confiante']}" alt="" width="44" height="44"><div class="bubble" role="note"><b>Dica da Nyx</b>${msg}</div></div>`;
+  const msg=again?rnd([t('Almost there! Breathe and read it again, slowly.'),t('This one came back for another try. You can do it!'),t('Mistakes are part of it. See what changed and try again.')]):q.t=='ord'?rnd([t('Start with what comes first. Order matters!'),t('What opens comes before what closes.')]):q.code?t('Read the code line by line, the way the computer would.'):t('Rule out the options that look odd first.');
+  return `<div class="nyx-dialog tip"><img class="nyxav float" src="${NYX[again?'pensativa':'confiante']}" alt="" width="44" height="44"><div class="bubble" role="note"><b>${t('Nyx tip')}</b>${msg}</div></div>`;
 }
 {const c=check;check=function(){const q=L.queue[0];c();if(L.res&&!L.res.ok)(L.ms=L.ms||new Set()).add(q)}}
 function nyxHero(){
   if(!$('#nyxh'))return;
   const n=Object.keys(S.done).length,tot=MODS.reduce((a,m,mi)=>a+m.l.filter((_,li)=>!needsPro(mi,li)||isPro()).length,0);
-  const [i,t,m]=n==0?['feliz','Oi, eu sou a Nyx!','Pronto para codar hoje? Escolha uma lição e vamos juntos.']:n<tot?['bora','Bora codar!',`Você já fez ${n} de ${tot} lições${S.streak>1?' e está há '+S.streak+' dias seguidos':''}. Continue assim!`]:['incrivel','Você é incrível!',(isPro()?'Completou todas as lições disponíveis. Mais missões chegando!':'Você concluiu as lições gratuitas! Conheça o PRO para continuar.')];
-  $('#nyxh').src=NYX[i];$('#nyxt').textContent=(window.ME&&n==0)?'Oi, '+ME.nickname+'! Eu sou a Nyx.':t;$('#nyxm').textContent=m;
+  const [i,tt,m]=n==0?['feliz',t("Hi, I'm Nyx!"),t("Ready to code today? Pick a lesson and let's go together.")]:n<tot?['bora',t("Let's code!"),t('You have completed {0} of {1} lessons',n,tot)+(S.streak>1?t(' and you are on a {0}-day streak',S.streak):'')+t('. Keep it up!')]:['incrivel',t('You are amazing!'),(isPro()?t('You completed every available lesson. More missions are coming!'):t('You finished the free lessons! Check out PRO to keep going.'))];
+  $('#nyxh').src=NYX[i];$('#nyxh').alt=t('Nyx, the mascot');$('#nyxt').textContent=(window.ME&&n==0)?t("Hi, {0}! I'm Nyx.",ME.nickname):tt;$('#nyxm').textContent=m;
 }
 {const hm=home;home=function(){hm();nyxHero()}}
 home();
 
-/* ===== Teclas de símbolos: dicas e curiosidades ===== */
+/* ===== Teclas de símbolos: dicas e curiosidades (textos por idioma em js/i18n/*.js) ===== */
 (function(){
-  const K=[
-   ["</>","Tags do HTML",[["d","Quase toda tag HTML abre e fecha: <p> abre e </p> fecha. A barra / é o que fecha."],["c","HTML significa HyperText Markup Language: uma linguagem de marcação que dá estrutura às páginas."],["d","O texto não aparece como esperado? Confira se você esqueceu de fechar alguma tag."]]],
-   ["{ }","Chaves",[["d","No CSS, as chaves guardam as regras: h1 { color: purple; }. Tudo dentro delas vale para o h1."],["c","Em muitas linguagens, as chaves marcam um bloco: um grupo de comandos que andam juntos."],["d","Abriu uma chave? Feche! Chave sobrando ou faltando é um dos erros mais comuns."]]],
-   ["( )","Parênteses",[["d","Parênteses mudam a ordem das contas: (2 + 3) * 4 dá 20, mas 2 + 3 * 4 dá 14."],["c","Em várias linguagens, parênteses depois de um nome, como mostrar(), chamam uma função: um comando que você pode reusar."],["d","Como as chaves, os parênteses vêm em par. Abriu um? Lembre de fechar."]]],
-   ["[ ]","Colchetes",[["d","Colchetes guardam listas: nomes = [\"Ana\", \"Beto\", \"Caio\"] é uma lista com três itens."],["c","Quase toda linguagem conta posições a partir do zero: o primeiro item de uma lista é o número 0."],["d","Para pegar um item da lista, use a posição entre colchetes: nomes[0] é o primeiro."]]],
-   ["=>","Seta",[["d","Em JavaScript, a seta => cria uma função curta: dobro = n => n * 2."],["c","A seta chegou ao JavaScript em 2015, na versão chamada ES6, que trouxe muitas novidades."],["d","Não confunda: = guarda um valor, enquanto => aparece em funções."]]],
-   [";","Ponto e vírgula",[["d","Em muitas linguagens, o ponto e vírgula marca o fim de um comando, como o ponto final de uma frase."],["c","Um ; esquecido é um dos erros mais famosos da programação: parece pouca coisa, mas o programa pode nem rodar."],["d","No CSS, cada declaração termina com ; como em color: purple; font-size: 20px;"]]],
-   ["#","Cerquilha",[["d","No CSS, # seleciona um elemento pelo id: #titulo { color: purple; }."],["c","Em Python, o # começa um comentário: uma anotação que o computador ignora."],["d","Cores em CSS usam # e um código, como #6A5AFF, o índigo do Code Ensina."]]],
-   ["&&","Operador E",[["d","&& significa E: a condição só é verdadeira se as duas partes forem verdadeiras."],["c","Essa lógica vem de George Boole, matemático do século 19. Por isso verdadeiro e falso se chamam valores booleanos."],["d","Exemplo: idade >= 12 && idade <= 17 só é verdadeiro para quem tem de 12 a 17 anos."]]]
-  ];
   const keys=$('#keys');if(!keys)return;
   let cur=-1,idx=0;
-  K.forEach((k,i)=>{const b=document.createElement('button');b.type='button';b.className='key';b.textContent=k[0];
-    b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',k[1]+': ver dica ou curiosidade');b.addEventListener('click',()=>show(i));keys.appendChild(b)});
+  const K=()=>I18N.data('keys');
+  function reset(){
+    cur=-1;idx=0;$('#tiptag').hidden=true;$('#tipt').textContent=t('Tap a symbol');$('#tipx').textContent=t('I will tell you a tip or a fun fact about it!');$('#tipn').textContent='';$('#tipav').src=NYX.confiante;
+  }
+  function build(){
+    keys.textContent='';
+    K().forEach((k,i)=>{const b=document.createElement('button');b.type='button';b.className='key';b.textContent=k[0];
+      b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',k[1]+': '+t('see a tip or fun fact'));b.addEventListener('click',()=>show(i));keys.appendChild(b)});
+    keys.setAttribute('aria-label',t('Programming symbols: tap one to see a tip or fun fact'));
+    reset();
+  }
   function show(i){
-    idx=(i==cur)?(idx+1)%K[i][2].length:0;cur=i;
+    const k=K();idx=(i==cur)?(idx+1)%k[i][2].length:0;cur=i;
     [...keys.children].forEach((b,j)=>b.setAttribute('aria-pressed',j==i));
-    const [t,x]=K[i][2][idx],g=$('#tiptag'),box=$('#tipbox');
-    g.hidden=false;g.className='tag '+t;g.textContent=t=='d'?'Dica':'Curiosidade';
-    $('#tipt').textContent=K[i][0]+'  '+K[i][1];$('#tipx').textContent=x;
-    $('#tipn').textContent=(idx+1)+' de '+K[i][2].length+' · toque de novo para a próxima';
-    $('#tipav').src=NYX[t=='d'?'confiante':'surpresa'];
+    const [ty,x]=k[i][2][idx],g=$('#tiptag'),box=$('#tipbox');
+    g.hidden=false;g.className='tag '+ty;g.textContent=ty=='d'?t('Tip'):t('Fun fact');
+    $('#tipt').textContent=k[i][0]+'  '+k[i][1];$('#tipx').textContent=x;
+    $('#tipn').textContent=t('{0} of {1} · tap again for the next one',idx+1,k[i][2].length);
+    $('#tipav').src=NYX[ty=='d'?'confiante':'surpresa'];
     box.classList.remove('in');void box.offsetWidth;box.classList.add('in');
   }
+  build();document.addEventListener('ce:lang',build);
 })();
 
 /* ===== Preenchimento de lacunas ===== */
@@ -239,16 +187,16 @@ function hideCel(){clearTimeout(celT);if($('#cel').hidden)return;$('#cel').hidde
   const m=MODS[L.mi],key=L.mi+'-'+L.li,was=!!S.done[key],wasAll=modDone(L.mi),before=S.xp;
   e(w);if(!w)return;
   const all=modDone(L.mi),first=!was&&Object.keys(S.done).length==1;
-  const [ico,title]=all&&!wasAll?['🏆','Módulo concluído!']:first?['✨','Primeira lição concluída!']:L.miss==0?['🌟','Sem nenhum erro!']:['✅','Lição concluída!'];
-  celebrate({ico,title,sub:'+'+(S.xp-before)+' XP · '+(all&&!wasAll?m.name:'continue assim!')});
+  const [ico,title]=all&&!wasAll?['🏆',t('World complete!')]:first?['✨',t('First lesson complete!')]:L.miss==0?['🌟',t('Not a single mistake!')]:['✅',t('Lesson complete!')];
+  celebrate({ico,title,sub:'+'+(S.xp-before)+' XP · '+(all&&!wasAll?MN(L.mi):t('keep it up!'))});
 }}
 
 /* ===== E-book / teoria do módulo ===== */
 let BK=0;
 function openBook(mi){
-  const m=MODS[mi];BK=mi;$('#bk_t').textContent=m.icon+' Teoria: '+m.name;
+  const m=MODS[mi];BK=mi;$('#bk_t').textContent=m.icon+' '+t('Theory: {0}',MN(mi));
   $('#bk_b').innerHTML=m.book.map(b=>'<article class="bcard'+(b.tip?' tipc':'')+'">'+(b.tip
-    ?`<img class="nyxav" src="${NYX.confiante}" alt="" width="44" height="44"><div><b>Dica da Nyx</b><p>${esc(b.tip)}</p></div>`
+    ?`<img class="nyxav" src="${NYX.confiante}" alt="" width="44" height="44"><div><b>${t('Nyx tip')}</b><p>${esc(b.tip)}</p></div>`
     :`<h3>${esc(b.h)}</h3>`+(b.p?`<p>${esc(b.p)}</p>`:'')+(b.ul?'<ul>'+b.ul.map(x=>`<li>${esc(x)}</li>`).join('')+'</ul>':'')+(b.code?`<pre class="code">${esc(b.code)}</pre>`:'')+(b.def?`<div class="def"><b>${esc(b.def[0])}</b> ${esc(b.def[1])}</div>`:''))+'</article>').join('');
   $('#book').hidden=false;$('#bk_b').scrollTop=0;
 }
@@ -264,3 +212,10 @@ function needsPro(mi,li){return !!MODS[mi].pro||li>=5}
 function isPro(){return !!(window.ME&&ME.pro)}
 function modDone(mi){return MODS[mi].l.every((_,i)=>(needsPro(mi,i)&&!isPro())||S.done[mi+'-'+i])}
 home();
+
+/* ===== Troca de idioma: redesenha o que o JS escreveu ===== */
+document.addEventListener('ce:lang',()=>{
+  home();
+  if(!$('#les').hidden&&typeof L!=='undefined'&&L&&L.queue&&L.queue.length&&!document.querySelector('#qa .end')){L.tip='';draw()}
+  if(!$('#book').hidden)openBook(BK);
+});

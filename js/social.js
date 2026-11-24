@@ -3,56 +3,56 @@
   if(!window.CE_SB)return;
   const sb=()=>window.CE_SB,toast=t=>window.toast&&window.toast(t);
   const medal=n=>n==1?'🥇':n==2?'🥈':n==3?'🥉':'#'+n;
-  const row=r=>'<li class="rk'+(r.is_me?' me':'')+'"><span class="pos">'+medal(Number(r.pos))+'</span><span class="nm">'+esc(r.nickname)+(r.is_me?' <em class="you">você</em>':'')+'</span><span class="xp">'+r.xp+' XP</span>'+(r.friend_id?'<button class="rkx" aria-label="Remover '+esc(r.nickname)+' dos amigos" onclick="rmFriend(\''+r.friend_id+'\')">✕</button>':'')+'</li>';
-  const FERR={invalid_code:'Código não encontrado. Confira e tente de novo.',self_invite:'Esse é o seu próprio código.',friend_limit:'Você chegou ao limite de 50 amigos.'};
+  const row=r=>'<li class="rk'+(r.is_me?' me':'')+'"><span class="pos">'+medal(Number(r.pos))+'</span><span class="nm">'+esc(r.nickname)+(r.is_me?' <em class="you">'+t('you')+'</em>':'')+'</span><span class="xp">'+r.xp+' XP</span>'+(r.friend_id?'<button class="rkx" aria-label="'+t('Remove {0} from friends',esc(r.nickname))+'" onclick="rmFriend(\''+r.friend_id+'\')">✕</button>':'')+'</li>';
+  const FERR={invalid_code:()=>t('Code not found. Check it and try again.'),self_invite:()=>t('That is your own code.'),friend_limit:()=>t('You have reached the limit of 50 friends.')};
 
   window.openRank=()=>{$('#rank').hidden=false;rankTab('g')};
   window.closeRank=()=>{$('#rank').hidden=true};
-  window.rankTab=async t=>{
-    $('#rk_g').setAttribute('aria-selected',t=='g');$('#rk_f').setAttribute('aria-selected',t=='f');
-    const b=$('#rk_b');b.innerHTML='<p class="muted">Carregando…</p>';
-    try{await(t=='g'?rankG:rankF)(b)}catch(e){b.innerHTML='<p class="muted">Não foi possível carregar. Verifique a conexão.</p>'}
+  window.rankTab=async tab=>{
+    $('#rk_g').setAttribute('aria-selected',tab=='g');$('#rk_f').setAttribute('aria-selected',tab=='f');
+    const b=$('#rk_b');b.innerHTML='<p class="muted">'+t('Loading…')+'</p>';
+    try{await(tab=='g'?rankG:rankF)(b)}catch(e){b.innerHTML='<p class="muted">'+t('Could not load. Check your connection.')+'</p>'}
   };
   async function rankG(b){
     const [a,m]=await Promise.all([sb().rpc('global_ranking',{p_limit:50,p_days:30}),sb().rpc('my_global_rank')]);
     if(a.error)throw a.error;
     const list=a.data||[],me=(m.data||[])[0];
-    b.innerHTML='<p class="muted">Quem mais ganhou XP, entre quem estudou nos últimos 30 dias. Aparecem só apelido e XP.</p>'
-      +(list.length?'<ol class="rklist">'+list.map(row).join('')+'</ol>':'<p class="muted">Ainda não há ninguém no ranking. Conclua uma lição para abrir a disputa!</p>')
-      +(me&&!list.some(r=>r.is_me)?'<p class="mine">Sua posição: <b>#'+me.pos+'</b> · '+me.xp+' XP</p>':'')
-      +(!me?'<p class="muted">Você não aparece no ranking global: ele é para quem tem 13 anos ou mais, tem XP, estudou nos últimos 30 dias e deixou a opção ligada em Minha conta. Entre amigos, você aparece sempre.</p>':'');
+    b.innerHTML='<p class="muted">'+t('Who earned the most XP among people who studied in the last 30 days. Only nickname and XP are shown.')+'</p>'
+      +(list.length?'<ol class="rklist">'+list.map(row).join('')+'</ol>':'<p class="muted">'+t('Nobody is in the ranking yet. Complete a lesson to start the race!')+'</p>')
+      +(me&&!list.some(r=>r.is_me)?'<p class="mine">'+t('Your position:')+' <b>#'+me.pos+'</b> · '+me.xp+' XP</p>':'')
+      +(!me?'<p class="muted">'+t('You are not in the global ranking: it is for people aged 13 or older who have XP, studied in the last 30 days and kept the option on in My account. Among friends, you always appear.')+'</p>':'');
   }
   async function rankF(b){
     const [c,f]=await Promise.all([sb().from('profiles').select('invite_code').eq('id',ME.id).maybeSingle(),sb().rpc('friends_ranking')]);
     if(f.error)throw f.error;
     const code=(c.data&&c.data.invite_code)||'',link=location.origin+location.pathname+'?amigo='+code;
-    b.innerHTML='<div class="invite"><p class="muted">Compartilhe seu código só com quem você conhece. Quem usar vira seu amigo e entra no seu mini-ranking.</p><div class="code" aria-label="Seu código de convite">'+esc(code)+'</div>'
-      +'<div class="row2"><button class="btn" onclick="copyTxt(\''+esc(code)+'\')">Copiar código</button><button class="btn ghost" onclick="copyTxt(\''+esc(link)+'\')">Copiar link</button><button class="btn ghost" onclick="newCode()">Gerar novo código</button></div></div>'
-      +'<div class="addf"><label for="fr_c">Tem um código de amigo?</label><div class="row2"><input id="fr_c" maxlength="12" autocapitalize="characters" autocomplete="off" placeholder="ex: K7M2QX9P"><button class="btn" onclick="addFriend()">Adicionar</button></div><div id="fr_m" role="status"></div></div>'
-      +'<h3>Mini-ranking</h3>'+((f.data||[]).length>1?'<ol class="rklist">'+f.data.map(row).join('')+'</ol>':'<p class="muted">Você ainda não tem amigos aqui. Compartilhe seu código!</p>');
+    b.innerHTML='<div class="invite"><p class="muted">'+t('Share your code only with people you know. Whoever uses it becomes your friend and joins your mini-ranking.')+'</p><div class="code" aria-label="'+t('Your invite code')+'">'+esc(code)+'</div>'
+      +'<div class="row2"><button class="btn" onclick="copyTxt(\''+esc(code)+'\')">'+t('Copy code')+'</button><button class="btn ghost" onclick="copyTxt(\''+esc(link)+'\')">'+t('Copy link')+'</button><button class="btn ghost" onclick="newCode()">'+t('Generate new code')+'</button></div></div>'
+      +'<div class="addf"><label for="fr_c">'+t('Have a friend code?')+'</label><div class="row2"><input id="fr_c" maxlength="12" autocapitalize="characters" autocomplete="off" placeholder="'+t('e.g. K7M2QX9P')+'"><button class="btn" onclick="addFriend()">'+t('Add')+'</button></div><div id="fr_m" role="status"></div></div>'
+      +'<h3>'+t('Mini-ranking')+'</h3>'+((f.data||[]).length>1?'<ol class="rklist">'+f.data.map(row).join('')+'</ol>':'<p class="muted">'+t('You have no friends here yet. Share your code!')+'</p>');
   }
   async function redeem(code){
     const {data,error}=await sb().rpc('redeem_invite',{p_code:code});
-    if(error){const k=Object.keys(FERR).find(k=>(error.message||'').includes(k));return {err:FERR[k]||'Não foi possível adicionar agora.'}}
+    if(error){const k=Object.keys(FERR).find(k=>(error.message||'').includes(k));return {err:FERR[k]?FERR[k]():t('Could not add right now.')}}
     return {nick:data};
   }
-  window.copyTxt=async t=>{try{await navigator.clipboard.writeText(t);toast('Copiado!')}catch(e){toast('Copie manualmente: '+t)}};
+  window.copyTxt=async txt=>{try{await navigator.clipboard.writeText(txt);toast(t('Copied!'))}catch(e){toast(t('Copy it manually: ')+txt)}};
   window.addFriend=async()=>{
     const c=$('#fr_c').value.trim(),m=$('#fr_m');
-    if(c.length<4){m.textContent='Digite o código do seu amigo.';m.style.color='#fecaca';return}
+    if(c.length<4){m.textContent=t('Type your friend\'s code.');m.style.color='var(--error)';return}
     const r=await redeem(c);
-    if(r.err){m.textContent=r.err;m.style.color='#fecaca';return}
-    toast('Agora você e '+r.nick+' são amigos! 🎉');rankTab('f');
+    if(r.err){m.textContent=r.err;m.style.color='var(--error)';return}
+    toast(t('Now you and {0} are friends! 🎉',r.nick));rankTab('f');
   };
   window.newCode=async()=>{
-    if(!confirm('Gerar um novo código? O código antigo deixa de funcionar. Quem já é seu amigo continua amigo.'))return;
+    if(!confirm(t('Generate a new code? The old code stops working. People who are already your friends stay your friends.')))return;
     const {error}=await sb().rpc('regenerate_invite_code');
-    if(error)return toast('Não foi possível gerar agora.');rankTab('f');
+    if(error)return toast(t('Could not generate one right now.'));rankTab('f');
   };
   window.rmFriend=async id=>{
-    if(!confirm('Remover este amigo do seu mini-ranking?'))return;
+    if(!confirm(t('Remove this friend from your mini-ranking?')))return;
     const {error}=await sb().rpc('remove_friend',{p_friend:id});
-    if(error)return toast('Não foi possível remover agora.');rankTab('f');
+    if(error)return toast(t('Could not remove right now.'));rankTab('f');
   };
 
   // link de convite: ?amigo=CODIGO (guardado até o login, depois resgatado)
@@ -63,22 +63,23 @@
   }
   document.addEventListener('ce:login',async()=>{
     let c=null;try{c=sessionStorage.getItem('ce_invite');sessionStorage.removeItem('ce_invite')}catch(e){}
-    if(c){const r=await redeem(c);toast(r.err||'Agora você e '+r.nick+' são amigos! 🎉')}
+    if(c){const r=await redeem(c);toast(r.err||t('Now you and {0} are friends! 🎉',r.nick))}
   });
 
   // Minha conta: aparecer no ranking global + assinatura
   if(window.openAcc){
-    const oa=window.openAcc;
-    window.openAcc=()=>{
-      oa();$('#acc_rank').checked=ME.showRank!==false;
+    const af=window.accFill;
+    window.accFill=()=>{
+      af();$('#acc_rank').checked=ME.showRank!==false;
       const cfg=(window.CE_CONFIG&&CE_CONFIG.checkout)||{};
       $('#acc_manage').hidden=!(cfg.portal&&ME.pro);
-      $('#acc_sub').textContent=ME.autoRenew?'Assinatura PRO com renovação automática. Para cancelar ou trocar o cartão, use "Gerenciar assinatura".':(ME.pro?'PRO sem renovação automática (passe).':'');
+      $('#acc_sub').textContent=ME.autoRenew?t('PRO subscription with automatic renewal. To cancel or change your card, use "Manage subscription".'):(ME.pro?t('PRO without automatic renewal (pass).'):'');
     };
   }
   $('#acc_rank').addEventListener('change',async e=>{
     const on=e.target.checked,{error}=await sb().from('profiles').update({show_in_ranking:on}).eq('id',ME.id);
-    if(error){e.target.checked=!on;return toast('Não foi possível salvar.')}ME.showRank=on;
+    if(error){e.target.checked=!on;return toast(t('Could not save.'))}ME.showRank=on;
   });
+  document.addEventListener('ce:lang',()=>{if(!$('#rank').hidden)rankTab($('#rk_f').getAttribute('aria-selected')=='true'?'f':'g')});
   window.manageSub=()=>{const u=(CE_CONFIG.checkout||{}).portal;if(u)window.open(u,'_blank','noopener')};
 })();

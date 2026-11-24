@@ -1,0 +1,14 @@
+{
+  "name": "code-ensina-tests",
+  "private": true,
+  "description": "Testes de regress\u00e3o visual/estrutural (Chromium headless + axe). Rode: npm i && node lote1.js",
+  "devDependencies": {
+    "@sparticuz/chromium": "^138.0.0",
+    "axe-core": "^4.10.0",
+    "puppeteer-core": "^24.0.0"
+  },
+  "scripts": {
+    "test": "node lote1.js && node lote2.js && node lote3.js && node regressao.js",
+    "estatico": "node regressao.js estatico"
+  }
+}

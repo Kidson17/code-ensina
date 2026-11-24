@@ -33,7 +33,7 @@
     clearInterval(iv);EVS.forEach(e=>removeEventListener(e,bump,{capture:true}));warned=false;
     try{$('#idle').close()}catch(e){}
     let f=null;try{f=sessionStorage.getItem('ce_idle');sessionStorage.removeItem('ce_idle')}catch(e){}
-    if(f)CE_UI.msg('#lerr','Você saiu por inatividade. Entre de novo para continuar.');
+    if(f)CE_UI.msg('#lerr',t('You were signed out due to inactivity. Sign in again to continue.'));
   });
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
 })();

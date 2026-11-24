@@ -11,7 +11,14 @@ usuário `admin` / senha `admin` (apenas demonstração)
 
 ## Estrutura
 - `index.html`: páginas e telas
-- `css/style.css`: estilos
+- `css/design-system.css`: tokens (cores, tipografia, espaço, raios, grade, movimento), base e componentes
+- `css/style.css`: telas do app (trilha, lição, painéis)
+- `css/landing.css`: landing; `css/intro.css` + `js/intro.js`: abertura Digital Portal v2; `js/fx.js`: efeitos
+- `vendor/`: GSAP, ScrollTrigger e supabase-js hospedados localmente
+- `assets/fonts/`: Space Grotesk, Inter e Fira Code (woff2)
+- `js/i18n.js`, `js/i18n/en.js`, `js/i18n/pt-BR.js`: idiomas (`t()`); para um texto novo, use `t('English text')` e acrescente a tradução em `pt-BR.js`
+- `js/a11y.js`: foco, `inert` e Esc nas camadas em tela cheia
+- `tests/`: Chromium headless + axe (`cd tests && npm i && node lote1.js`)
 - `assets/img/`: logo, favicon e a mascote Nyx (`nyx/`)
 - `js/app.js`: lições, login, animações
 
@@ -37,3 +44,7 @@ usuário `admin` / senha `admin` (apenas demonstração)
 - Edge Functions: `supabase/functions/stripe-webhook` e `supabase/functions/pro-reminders`.
 - Front-end: `js/authux.js` (login), `js/session.js` (inatividade), `js/social.js` (ranking/amigos), `js/admin.js` (admin).
 - Abertura "Digital Portal": `js/intro.js` + `css/intro.css` + trecho no `<head>` e `#ce-intro` no `<body>` do `index.html`.
+
+## v10 (redesign 2.0, etapa A)
+Design system, fontes e bibliotecas locais, abertura Digital Portal v2, landing editorial, interface em inglês e português (escolha no cadastro, na landing e em Minha conta) e testes automáticos. Veja `CHANGELOG.md` e `PUBLICAR.md`.
+Testes: `cd tests && npm i && npm test` (261 checks: estrutura, axe, fluxos com Supabase simulado em desktop e celular).

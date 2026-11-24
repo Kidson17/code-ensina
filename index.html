@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Code Ensina: aprenda lógica de programação, HTML e CSS com lições curtas, XP e desafios para a sala de aula.">
-<meta name="theme-color" content="#0b0720">
+<meta name="description" content="Code Ensina: learn programming logic, HTML and CSS with short lessons, XP and challenges built for the classroom.">
+<meta name="theme-color" content="#09080F">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<title>Code Ensina — aprenda a programar jogando</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+<title>Code Ensina — learn to code by playing</title>
+<link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/space-grotesk-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/design-system.css">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/landing.css">
 <link rel="stylesheet" href="css/intro.css">
+<script>
+/* Nível de movimento: 0 = nenhum (prefers-reduced-motion), 1 = reduzido (celular/toque), 2 = completo. Lido pelo CSS e pelo JS. */
+(function(){try{var m=matchMedia,d=document.documentElement;d.setAttribute("data-motion",m("(prefers-reduced-motion: reduce)").matches?"0":(m("(pointer: coarse)").matches||innerWidth<700)?"1":"2")}catch(e){document.documentElement.setAttribute("data-motion","1")}})();
+</script>
 <script>
 /* Code Ensina DIGITAL PORTAL: decide, antes da primeira pintura, se a abertura roda nesta sessão.
    Chave: codeEnsinaDigitalIntroPlayed (sessionStorage). Não toca em progresso, XP ou login. */
@@ -21,157 +29,173 @@
   if(sessionStorage.getItem(K))return;                                                     // já tocou nesta sessão
   sessionStorage.setItem(K,'1');
   d.classList.add('ce-intro-on');
-  setTimeout(function(){d.classList.remove('ce-intro-on')},5200);                          // rede de segurança
+  setTimeout(function(){d.classList.remove('ce-intro-on')},9000);                          // rede de segurança
 }catch(e){}})();
 </script>
 </head>
 <body>
-<div id="ce-intro" aria-hidden="true"><canvas class="ce-rain"></canvas><canvas class="ce-fx"></canvas>
- <img class="ce-logo" src="assets/img/logo-mark.webp" alt="" width="92" height="92">
- <div class="ce-txt"><p class="ce-title">INICIALIZANDO UNIVERSO CODE ENSINA</p><p class="ce-sub">PREPARE-SE PARA APRENDER, CODIFICAR E EVOLUIR.</p></div>
- <div class="ce-edge"></div><div class="ce-drips"></div></div>
+<a class="skip" href="#main">Skip to content</a>
+<div id="ce-intro" data-logo="assets/img/logo-mark-hd.webp"><canvas aria-hidden="true"></canvas>
+ <div class="ce-txt" aria-live="off"><p class="ce-title"></p><p class="ce-sub"></p><p class="ce-sub"></p></div>
+ <button type="button" class="ce-skip">Skip</button></div>
 <script src="js/intro.js"></script>
+<header class="top">
+  <div class="logo"><img src="assets/img/logo-mark.webp" alt="" width="32" height="32"><span>Code Ensina</span></div>
+  <span class="pill" title="Day streak"><span aria-hidden="true">🔥</span> <span id="st">0</span><span class="sr-only"> day streak</span></span>
+  <span class="pill" title="Experience points"><span aria-hidden="true">⚡</span> <span id="xp">0</span> XP</span>
+  <nav class="topnav" aria-label="Account and ranking">
+   <button class="pill" id="rkb" onclick="openRank()" hidden title="Ranking" aria-label="Ranking">🏆</button>
+   <button class="pill" id="admb" onclick="openAdmin()" hidden title="Administration" aria-label="Administration">🛠</button>
+   <button class="pill" id="accb" onclick="openAcc()" hidden title="My account"></button>
+   <button class="pill" onclick="logout()" title="Sign out of your account">Sign out</button>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
 <div id="login">
- <div class="floor" aria-hidden="true"></div><div id="syms" aria-hidden="true"></div>
+ <canvas id="fx" aria-hidden="true"></canvas>
+ <nav class="lnav" aria-label="Site sections"><span class="lnav-brand"><img src="assets/img/logo-mark.webp" alt="" width="28" height="28"><span>Code Ensina</span></span><a href="#worlds">Worlds</a><a href="#planos">Plans</a><a href="#escolas">Schools</a><div class="langsw" role="group" aria-label="Language"><button type="button" class="lang-b" data-lang="en" aria-pressed="true" lang="en">EN</button><button type="button" class="lang-b" data-lang="pt-BR" aria-pressed="false" lang="pt-BR">PT</button></div><button class="btn sm" onclick="toLogin()">Sign in</button></nav>
  <div class="lg">
-  <section>
-   <div class="brand"><img src="assets/img/logo-mark.webp" alt="" width="48" height="48">Code Ensina</div>
-   <h1>Aprenda a programar jogando.</h1>
-   <p class="sub">Lógica, HTML, CSS e JavaScript em lições rápidas, com a Nyx te guiando. Para estudar sozinho ou levar para a sala de aula.</p>
-   <div class="aud" role="group" aria-label="Escolha como você vai usar"><button class="audbtn a1" onclick="pickAud('solo')"><small>Para você</small><b>Aprenda sozinho</b></button><button class="audbtn a2" onclick="pickAud('school')"><small>Para escolas</small><b>Painel e gestão</b></button></div>
-   <div class="stats3"><div>5<small>módulos</small></div><div>90<small>desafios</small></div><div>⚡ XP<small>e sequência</small></div></div>
-   <div class="stage" aria-hidden="true">
-    <div class="cube"><div class="f1">&lt;/&gt;</div><div class="f2">{ }</div><div class="f3">( )</div><div class="f4">[ ]</div><div class="f5">=&gt;</div><div class="f6">#</div></div>
-    <div class="win"><div class="dots"><i></i><i></i><i></i></div><pre><span class="c">// sua primeira lição</span>
-<span class="k">const</span> aluno = <span class="s">"Você"</span>;
-<span class="k">se</span> (aluno.<span class="f">estuda</span>()) {
-  xp += <span class="n">10</span>;
-}</pre></div>
-   </div>
-   <div class="keys" id="keys" role="group" aria-label="Símbolos de programação: toque em um para ver uma dica ou curiosidade"></div>
-   <div class="nyx-dialog tipbox" id="tipbox" role="status" aria-live="polite"><img class="nyxav" id="tipav" src="assets/img/nyx/confiante.webp" alt="" width="52" height="52"><div class="bubble"><span class="tag" id="tiptag" hidden></span><b id="tipt">Toque em um símbolo</b><span id="tipx">Eu conto uma dica ou uma curiosidade sobre ele!</span><small id="tipn"></small></div></div>
+  <section class="hero-copy">
+   <p class="eyebrow">Code Ensina · Digital learning universe</p>
+   <h1 data-split aria-label="Learn to Code. Play to Evolve."><span class="ln">Learn to Code.</span> <span class="ln acc">Play to Evolve.</span></h1>
+   <p class="sub">Five worlds, 90 challenges and one guide named Nyx. Learn logic, HTML, CSS and JavaScript in short lessons that reward every win.</p>
+   <div class="cta-row"><button class="btn big" onclick="toLogin()">ENTER THE UNIVERSE</button><button class="btn ghost big" onclick="exploreWorlds()">EXPLORE THE WORLDS</button></div>
+   <dl class="counters"><div><dd data-count="5">5</dd><dt>worlds</dt></div><div><dd data-count="30">30</dd><dt>lessons</dt></div><div><dd data-count="90">90</dd><dt>challenges</dt></div></dl>
   </section>
   <section class="lcard" id="lcard">
-   <div class="nyx-dialog sm"><img class="nyxav float" src="assets/img/nyx/ola.webp" alt="Nyx acenando" width="52" height="52"><div class="bubble" role="note"><b>Oi, eu sou a Nyx!</b>Entre ou crie sua conta e vamos codar juntos.</div></div>
-   <div class="tabs" role="tablist"><button id="tl" role="tab" aria-selected="true" onclick="authTab('login')">Entrar</button><button id="ts" role="tab" aria-selected="false" onclick="authTab('signup')">Criar conta</button></div>
+   <div class="nyx-dialog sm"><img class="nyxav float" src="assets/img/nyx/ola.webp" alt="Nyx waving" width="52" height="52"><div class="bubble" role="note"><b>Hi, I'm Nyx!</b>Sign in or create your account and let's code together.</div></div>
+   <div class="tabs" role="tablist"><button id="tl" role="tab" aria-selected="true" onclick="authTab('login')">Sign in</button><button id="ts" role="tab" aria-selected="false" onclick="authTab('signup')">Create account</button></div>
    <div id="fl">
-    <label for="lu">E-mail</label><input id="lu" type="email" autocomplete="email" placeholder="seu@email.com">
-    <label for="lp">Senha</label><input id="lp" type="password" autocomplete="current-password" placeholder="sua senha">
+    <label for="lu">Email</label><input id="lu" type="email" autocomplete="email" placeholder="you@email.com">
+    <label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" placeholder="your password">
     <div id="lerr" role="alert"></div>
-    <div id="lacts" class="lacts" hidden><button class="lnk" id="lresend" onclick="resendConfirm()" hidden>Reenviar e-mail de confirmação</button><button class="lnk" id="lforgot2" onclick="forgot()" hidden>Redefinir minha senha</button></div>
-    <button class="btn wide" id="bl" onclick="doLogin()">Entrar</button>
-    <p class="hint"><a href="#" onclick="forgot();return false">Esqueci minha senha</a></p>
+    <div id="lacts" class="lacts" hidden><button class="lnk" id="lresend" onclick="resendConfirm()" hidden>Resend confirmation email</button><button class="lnk" id="lforgot2" onclick="forgot()" hidden>Reset my password</button></div>
+    <button class="btn wide" id="bl" onclick="doLogin()">Sign in</button>
+    <p class="hint"><a href="#" onclick="forgot();return false">Forgot my password</a></p>
    </div>
    <div id="fs" hidden>
-    <label for="su_nick">Apelido (seu ID no app)</label><input id="su_nick" autocomplete="username" maxlength="20" placeholder="ex: nyx_fan">
-    <label for="su_name">Nome completo</label><input id="su_name" autocomplete="name" maxlength="100">
-    <label for="su_mail">E-mail</label><input id="su_mail" type="email" autocomplete="email">
-    <label for="su_birth">Data de nascimento</label><input id="su_birth" type="date" autocomplete="bday">
-    <div id="gwrap" hidden><label for="su_g">E-mail do responsável</label><input id="su_g" type="email"></div>
-    <label for="su_pass">Senha (mínimo 8 caracteres)</label><input id="su_pass" type="password" autocomplete="new-password">
+    <label for="su_nick">Nickname (your ID in the app)</label><input id="su_nick" autocomplete="username" maxlength="20" placeholder="e.g. nyx_fan">
+    <label for="su_name">Full name</label><input id="su_name" autocomplete="name" maxlength="100">
+    <label for="su_mail">Email</label><input id="su_mail" type="email" autocomplete="email">
+    <label for="su_birth">Date of birth</label><input id="su_birth" type="date" autocomplete="bday">
+    <fieldset class="langset"><legend>Language</legend><label class="pc2"><input type="radio" name="su_lang" value="en" checked> English</label><label class="pc2"><input type="radio" name="su_lang" value="pt-BR"> Português (Brasil)</label></fieldset>
+    <div id="gwrap" hidden><label for="su_g">Parent or guardian's email</label><input id="su_g" type="email"></div>
+    <label for="su_pass">Password (at least 8 characters)</label><input id="su_pass" type="password" autocomplete="new-password">
     <div class="chk"><input id="su_c" type="checkbox"><label for="su_c" id="clabel"></label></div>
     <div id="serr" role="alert"></div>
-    <button class="btn wide" id="bs" onclick="doSignup()">Criar minha conta</button>
+    <button class="btn wide" id="bs" onclick="doSignup()">Create my account</button>
    </div>
   </section>
+
  </div>
  <div class="blocks">
-  <section class="blk"><p class="eyebrow rv">Como funciona</p><h2 class="rv">Aprender a programar em passos curtos.</h2><p class="lead rv">Cada lição leva poucos minutos e termina com uma recompensa.</p>
-   <div class="grid3"><div class="tile rv"><div class="big">&lt;/&gt;</div><h3>Aprenda</h3><p>Perguntas diretas, com exemplos de código fáceis de ler.</p></div><div class="tile rv"><div class="big">{ }</div><h3>Pratique</h3><p>Monte o código na ordem certa e veja o resultado na hora.</p></div><div class="tile rv"><div class="big">++</div><h3>Evolua</h3><p>Ganhe XP, mantenha a sequência de dias e desbloqueie lições.</p></div></div></section>
-  <section class="blk"><p class="eyebrow rv">Trilhas</p><h2 class="rv">Cinco módulos, do zero ao projeto.</h2><p class="lead rv">Da lógica ao JavaScript, passando pelo visual de uma página.</p>
-   <div class="grid3"><div class="tile rv" style="border-top:4px solid #8b5cf6"><div class="big">if</div><h3>Lógica de Programação</h3><p>Algoritmos, variáveis, condições e laços.</p></div><div class="tile rv" style="border-top:4px solid #a855f7"><div class="big">&lt;h1&gt;</div><h3>HTML</h3><p>Tags, links, imagens e listas: o esqueleto do site.</p></div><div class="tile rv" style="border-top:4px solid #d946ef"><div class="big">{ ; }</div><h3>CSS</h3><p>Cores, texto e caixas para dar estilo às páginas.</p></div><div class="tile rv" style="border-top:4px solid #22d3ee"><div class="big">JS</div><h3>JavaScript Básico <em class="pro">PRO</em></h3><p>Variáveis, funções e interatividade.</p></div><div class="tile rv" style="border-top:4px solid #f472b6"><div class="big">🚀</div><h3>Desafios Práticos <em class="pro">PRO</em></h3><p>HTML, CSS e lógica trabalhando juntos.</p></div></div></section>
-  <section class="blk"><div class="nyxgrid"><img class="rv nyxfull" src="assets/img/nyx/full.webp" alt="Nyx, a mascote: jovem programadora de cabelo roxo, fones de ouvido e um tablet de código" width="363" height="640" loading="lazy"><div><p class="eyebrow rv">Sua guia</p><h2 class="rv">Conheça a Nyx.</h2><p class="lead rv">Curiosa, esperta e sempre por perto. A Nyx comemora cada acerto, dá dicas quando o código trava e lembra que errar faz parte de aprender.</p><img class="rv" src="assets/img/logo-athenyx.webp" alt="Athenyx" width="170" height="170" style="width:170px;height:auto" loading="lazy"></div></div></section>
+  <section class="band" aria-label="Try the syntax keys">
+   <div class="win" aria-hidden="true"><div class="dots"><i></i><i></i><i></i></div><pre><span class="c">// your first lesson</span>
+<span class="k">const</span> student = <span class="s">"You"</span>;
+<span class="k">while</span> (student.<span class="f">learns</span>()) {
+  xp += <span class="n">10</span>;
+}</pre></div>
+   <div class="band-r"><p class="eyebrow">Warm-up</p><h2 class="h3x">Pick a symbol. Nyx has a story.</h2>
+   <div class="keys" id="keys" role="group" aria-label="Programming symbols: tap one to see a tip or fun fact"></div>
+   <div class="nyx-dialog tipbox" id="tipbox" role="status" aria-live="polite"><img class="nyxav" id="tipav" src="assets/img/nyx/confiante.webp" alt="" width="52" height="52"><div class="bubble"><span class="tag" id="tiptag" hidden></span><b id="tipt">Tap a symbol</b><span id="tipx">I will tell you a tip or a fun fact about it!</span><small id="tipn"></small></div></div>
+   </div>
+  </section>
+  <section class="blk" id="worlds" tabindex="-1"><div class="sec-h"><div><p class="eyebrow rv">The map</p><h2 class="rv">Five worlds. One path.</h2></div><p class="lead rv">From the first algorithm to a finished project, each world unlocks the next.</p></div>
+   <div class="worlds">
+   <article class="world w1 rv" data-spotlight style="--i:1"><span class="w-n" aria-hidden="true">01</span><span class="w-g" aria-hidden="true">if</span><h3>Logic Core</h3><p>Think like a programmer: algorithms, variables, conditions and loops.</p><p class="w-m"><span>6 lessons · 18 challenges</span><em class="free">5 free lessons</em></p></article>
+   <article class="world w2 rv" data-spotlight style="--i:2"><span class="w-n" aria-hidden="true">02</span><span class="w-g" aria-hidden="true">&lt;/&gt;</span><h3>HTML Foundry</h3><p>Forge the skeleton of a page with tags, links, images and lists.</p><p class="w-m"><span>6 lessons · 18 challenges</span><em class="free">5 free lessons</em></p></article>
+   <article class="world w3 rv" data-spotlight style="--i:3"><span class="w-n" aria-hidden="true">03</span><span class="w-g" aria-hidden="true">{ ; }</span><h3>CSS Studio</h3><p>Colors, type and boxes: give every page a style of its own.</p><p class="w-m"><span>6 lessons · 18 challenges</span><em class="free">5 free lessons</em></p></article>
+   <article class="world w4 rv" data-spotlight style="--i:4"><span class="w-n" aria-hidden="true">04</span><span class="w-g" aria-hidden="true">JS</span><h3>JavaScript Lab</h3><p>Variables, functions and interaction. Build pages that react.</p><p class="w-m"><span>7 lessons · 21 challenges</span><em class="pro">PRO</em></p></article>
+   <article class="world w5 rv" data-spotlight style="--i:5"><span class="w-n" aria-hidden="true">05</span><span class="w-g" aria-hidden="true">▲</span><h3>Project Arena</h3><p>HTML, CSS and logic working together on real mini projects.</p><p class="w-m"><span>5 lessons · 15 challenges</span><em class="pro">PRO</em></p></article>
+   </div></section>
   <section class="dw" id="dw"><div class="dsticky">
    <div class="cap">
-    <div><p class="eyebrow">1 · O desafio</p><h2>Leia a pergunta.</h2><p class="lead">Uma tarefa por vez: sem textos longos e sem enrolação.</p></div>
-    <div><p class="eyebrow">2 · A prática</p><h2>Monte o código.</h2><p class="lead">Toque nos blocos para colocar cada parte no lugar certo.</p></div>
-    <div><p class="eyebrow">3 · A recompensa</p><h2>Ganhe XP.</h2><p class="lead">Acertou? Pontos na hora e a próxima lição liberada.</p></div>
+    <div><p class="eyebrow">1 · The challenge</p><h2>Read the question.</h2><p class="lead">One task at a time: no long texts, no fluff.</p></div>
+    <div><p class="eyebrow">2 · The practice</p><h2>Build the code.</h2><p class="lead">Tap the blocks to put each piece in the right place.</p></div>
+    <div><p class="eyebrow">3 · The reward</p><h2>Earn XP.</h2><p class="lead">Got it right? Points on the spot and the next lesson unlocks.</p></div>
    </div>
-   <div class="phone" aria-hidden="true"><div class="pbar"><i id="dbar"></i></div><h4>Monte um parágrafo:</h4>
-    <div class="dslots"><span class="ds">&lt;p&gt;</span><span class="ds">Olá, mundo!</span><span class="ds">&lt;/p&gt;</span></div>
-    <div class="dpool"><span class="dp">&lt;/p&gt;</span><span class="dp">&lt;p&gt;</span><span class="dp">Olá, mundo!</span></div>
-    <div class="dbtn" id="dbtn">Verificar</div><div class="dfb" id="dfb"><span>Isso aí!</span><span>+14 XP</span></div></div>
+   <div class="phone" aria-hidden="true"><div class="pbar"><i id="dbar"></i></div><h4>Build a paragraph:</h4>
+    <div class="dslots"><span class="ds">&lt;p&gt;</span><span class="ds">Hello, world!</span><span class="ds">&lt;/p&gt;</span></div>
+    <div class="dpool"><span class="dp">&lt;/p&gt;</span><span class="dp">&lt;p&gt;</span><span class="dp">Hello, world!</span></div>
+    <div class="dbtn" id="dbtn">Check</div><div class="dfb" id="dfb"><span>Nailed it!</span><span>+14 XP</span></div></div>
   </div></section>
-  <section class="blk"><p class="eyebrow rv">Para a escola</p><h2 class="rv">Pensado para a sala de aula.</h2><p class="lead rv">Simples para o aluno, leve para a escola.</p>
-   <div class="grid3"><div class="tile rv"><div class="big">[ ]</div><h3>Sem instalar</h3><p>Abre no navegador, no celular ou no computador.</p></div><div class="tile rv"><div class="big">3 min</div><h3>Lições curtas</h3><p>Cabem no intervalo ou nos últimos minutos da aula.</p></div><div class="tile rv"><div class="big">=&gt;</div><h3>Painel do professor</h3><p>Em breve: acompanhar turmas e desempenho.</p></div></div></section>
-  <section class="blk" id="planos"><p class="eyebrow rv">Planos</p><h2 class="rv">Comece grátis. Vá além com o PRO.</h2><p class="lead rv">Os três módulos de fundamentos têm as 5 primeiras lições gratuitas. O PRO libera todo o resto.</p>
-   <div class="grid3 plans"><div class="tile rv"><h3>Grátis</h3><div class="price">R$ 0</div><ul><li>Lógica, HTML e CSS: 5 lições em cada</li><li>15 desafios por módulo, com explicações</li><li>XP, sequência e a Nyx</li></ul><button class="btn" onclick="pickAud('solo')">Começar grátis</button></div>
-   <div class="tile rv feat"><h3>PRO mensal</h3><div class="price">R$ 19,90<small>/mês</small></div><ul><li>Tudo do plano grátis</li><li>JavaScript Básico</li><li>Desafios Práticos Avançados</li><li>Lições extras a partir da 6ª</li><li>Cartão com renovação automática (cancele quando quiser) ou Pix de 30 dias</li></ul><button class="btn" onclick="openPay()">Quero o PRO</button></div>
-   <div class="tile rv feat"><h3>PRO anual</h3><div class="price">R$ 149,90<small>/ano</small></div><ul><li>Equivale a R$ 12,49 por mês</li><li>Economia de 37% sobre o mensal</li><li>Tudo do PRO mensal</li><li>Cartão com renovação automática ou Pix de 1 ano</li></ul><button class="btn" onclick="openPay()">Quero o PRO anual</button></div></div></section>
-  <section class="blk" id="escolas"><p class="eyebrow rv">Para escolas</p><h2 class="rv">Programação na sala de aula, com acompanhamento.</h2><p class="lead rv">Os alunos aprendem jogando. Você enxerga quem precisa de ajuda.</p>
-   <div class="sgrid"><ul class="schoollist rv"><li>Turmas com código de convite <em class="soon">em breve</em></li><li>Painel com o progresso de cada aluno e da turma <em class="soon">em breve</em></li><li>Onde a turma mais erra, desafio por desafio <em class="soon">em breve</em></li><li>Relatórios para exportar <em class="soon">em breve</em></li><li>Conteúdo em português, da lógica ao JavaScript</li><li>Privacidade de dados tratada desde o desenho do produto</li></ul>
-   <div class="tile rv"><h3>Quero levar para minha escola</h3><p>Estamos abrindo pilotos com escolas. Deixe seu contato.</p>
-    <label for="ld_n">Seu nome</label><input id="ld_n" autocomplete="name" maxlength="100">
-    <label for="ld_e">E-mail</label><input id="ld_e" type="email" autocomplete="email">
-    <label for="ld_s">Escola</label><input id="ld_s" maxlength="150">
-    <label for="ld_r">Seu cargo (opcional)</label><input id="ld_r" maxlength="80">
-    <label for="ld_m">Mensagem (opcional)</label><textarea id="ld_m" rows="3" maxlength="1000"></textarea>
-    <div class="chk"><input id="ld_c" type="checkbox"><label for="ld_c">Concordo em ser contatado(a) sobre o piloto. Usaremos esses dados só para isso.</label></div>
-    <div id="lead_msg" role="status"></div><button class="btn wide" onclick="sendLead()">Quero levar para minha escola</button></div></div></section>
-  <section class="blk cta rv"><h2>Pronto para o primeiro nível?</h2><p class="lead">Entre com sua conta e comece pela lógica de programação.</p><button class="btn" onclick="toLogin()">Entrar agora</button></section>
+  <section class="blk nyxsec"><div class="nyxgrid"><img class="rv nyxfull" src="assets/img/nyx/full.webp" alt="Nyx, the mascot: a young programmer with purple hair, headphones and a code tablet" width="363" height="640" loading="lazy"><div><p class="eyebrow rv">Your guide</p><h2 class="rv">Meet Nyx.</h2><p class="lead rv">Curious, sharp and always nearby. Nyx celebrates every win, gives hints when the code gets stuck and reminds you that mistakes are part of learning.</p><img class="rv" src="assets/img/logo-athenyx.webp" alt="Athenyx" width="170" height="170" style="width:170px;height:auto" loading="lazy"></div></div></section>
+  <section class="blk" id="planos"><div class="sec-h"><div><p class="eyebrow rv">Plans</p><h2 class="rv">Start free. Go further with PRO.</h2></div><p class="lead rv">The three foundation worlds have their first 5 lessons free. PRO unlocks everything else.</p></div>
+   <div class="grid3 plans"><div class="tile rv" data-spotlight><h3>Free</h3><div class="price">R$ 0</div><ul><li>Logic, HTML and CSS: 5 lessons each</li><li>15 challenges per world, with explanations</li><li>XP, streaks and Nyx</li></ul><button class="btn" onclick="pickAud('solo')">Start free</button></div>
+   <div class="tile rv feat" data-spotlight><h3>PRO monthly</h3><div class="price">R$ 19,90<small>/month</small></div><ul><li>Everything in Free</li><li>JavaScript Lab</li><li>Project Arena</li><li>Extra lessons from the 6th on</li><li>Card with auto-renewal (cancel anytime) or a 30-day Pix pass</li></ul><button class="btn" onclick="openPay()">Get PRO</button></div>
+   <div class="tile rv feat" data-spotlight><h3>PRO yearly</h3><div class="price">R$ 149,90<small>/year</small></div><ul><li>Works out to R$ 12,49 a month</li><li>Save 37% over monthly</li><li>Everything in PRO monthly</li><li>Card with auto-renewal or a 1-year Pix pass</li></ul><button class="btn" onclick="openPay()">Get PRO yearly</button></div></div></section>
+  <section class="blk" id="escolas" tabindex="-1"><div class="sec-h"><div><p class="eyebrow rv">For schools</p><h2 class="rv">Coding in the classroom, with a clear view of progress.</h2></div><p class="lead rv">Students learn by playing. You see who needs help.</p></div>
+   <div class="sgrid"><ul class="schoollist rv"><li>Classes with invite codes <em class="soon">soon</em></li><li>Dashboard with each student's and class progress <em class="soon">soon</em></li><li>Where the class struggles most, challenge by challenge <em class="soon">soon</em></li><li>Exportable reports <em class="soon">soon</em></li><li>Runs in the browser: no installs, on phone or computer</li><li>Student data privacy built into the product</li></ul>
+   <div class="tile rv"><h3>I want to bring it to my school</h3><p>We are opening pilots with schools. Leave your contact.</p>
+    <label for="ld_n">Your name</label><input id="ld_n" autocomplete="name" maxlength="100">
+    <label for="ld_e">Email</label><input id="ld_e" type="email" autocomplete="email">
+    <label for="ld_s">School</label><input id="ld_s" maxlength="150">
+    <label for="ld_r">Your role (optional)</label><input id="ld_r" maxlength="80">
+    <label for="ld_m">Message (optional)</label><textarea id="ld_m" rows="3" maxlength="1000"></textarea>
+    <div class="chk"><input id="ld_c" type="checkbox"><label for="ld_c">I agree to be contacted about the pilot. We will use this data only for that.</label></div>
+    <div id="lead_msg" role="status"></div><button class="btn wide" onclick="sendLead()">I want to bring it to my school</button></div>
+  </div></div></section>
+  <section class="blk cta rv"><h2>Ready for level one?</h2><p class="lead">Sign in and start with Logic Core.</p><button class="btn big" onclick="toLogin()">ENTER THE UNIVERSE</button></section>
  </div>
 </div>
-<header class="top">
-  <div class="logo"><img src="assets/img/logo-mark.webp" alt="" width="36" height="36"><span>Code Ensina</span></div>
-  <span class="pill" title="Dias seguidos">🔥 <span id="st">0</span></span>
-  <span class="pill" title="Pontos de experiência">⚡ <span id="xp">0</span> XP</span>
-  <button class="pill" id="rkb" onclick="openRank()" hidden title="Ranking" aria-label="Ranking">🏆</button>
-  <button class="pill" id="admb" onclick="openAdmin()" hidden title="Administração" aria-label="Administração">🛠</button>
-  <button class="pill" id="accb" onclick="openAcc()" hidden title="Minha conta"></button>
-  <button class="pill" onclick="logout()" style="cursor:pointer" title="Sair da conta">Sair</button>
-</header>
+
 <div class="wrap">
-  <div class="nyx-dialog hero"><img class="nyxav float" id="nyxh" src="assets/img/nyx/feliz.webp" alt="Nyx, a mascote" width="76" height="76"><div class="bubble" role="note"><b id="nyxt">Oi, eu sou a Nyx!</b><span id="nyxm">Pronto para codar hoje? Escolha uma lição e vamos juntos.</span></div></div>
+  <h1 class="sr-only">Code Ensina</h1>
+  <div class="nyx-dialog hero"><img class="nyxav float" id="nyxh" src="assets/img/nyx/feliz.webp" alt="Nyx, the mascot" width="76" height="76"><div class="bubble" role="note"><b id="nyxt">Hi, I'm Nyx!</b><span id="nyxm">Ready to code today? Pick a lesson and let's go together.</span></div></div>
   <div id="home"></div>
 </div>
+</main>
 
-<div id="les" hidden>
-  <div class="lt"><button class="x" onclick="closeL()" aria-label="Sair da lição">✕</button><div class="pb"><i id="bar"></i></div><span id="hr"></span></div>
-  <main id="qa"></main>
-  <footer class="ft" id="ft"></footer>
+<div id="les" hidden role="dialog" aria-modal="true" aria-label="Lesson" tabindex="-1">
+  <div class="lt"><button class="x" onclick="closeL()" aria-label="Leave lesson">✕</button><div class="pb"><i id="bar"></i></div><span id="hr"></span></div>
+  <div id="qa"></div>
+  <div class="ft" id="ft" role="status" aria-live="polite"></div>
 </div>
 
-<div id="book" hidden role="dialog" aria-modal="true" aria-labelledby="bk_t"><div class="lt"><button class="x" onclick="closeBook()" aria-label="Fechar teoria">✕</button><h2 id="bk_t"></h2></div><main id="bk_b"></main><footer class="ft"><button class="btn wide" onclick="startFromBook()">Começar desafios</button></footer></div>
-<div id="cel" hidden role="alertdialog" aria-modal="true" aria-labelledby="celt" aria-describedby="cels"><div class="celbox"><div class="celico" id="celi" aria-hidden="true">✅</div><h2 id="celt"></h2><p id="cels"></p><button class="btn" id="celb">Continuar</button></div></div>
-<dialog id="pay" class="paydlg" aria-labelledby="payt"><button class="x" aria-label="Fechar" onclick="$('#pay').close()">✕</button>
- <div class="nyx-dialog sm"><img class="nyxav float" src="assets/img/nyx/incrivel.webp" alt="" width="52" height="52"><div class="bubble"><b id="payt">Libere tudo com o Code Ensina PRO</b><span id="paywhy"></span></div></div>
- <ul class="benef"><li>JavaScript Básico: variáveis, funções e interatividade</li><li>Desafios Práticos Avançados: HTML, CSS e lógica juntos</li><li>Lições extras de Lógica, HTML e CSS (a partir da 6ª)</li><li><b id="paynum">45</b> desafios exclusivos, com explicações</li></ul>
- <div class="plansel" role="radiogroup" aria-label="Escolha o plano">
-  <label class="pc"><input type="radio" name="plan" value="annual" checked><span><b>Anual · R$ 149,90</b><small>R$ 12,49 por mês · economia de 37%</small></span><em class="best">Melhor valor</em></label>
-  <label class="pc"><input type="radio" name="plan" value="monthly"><span><b>Mensal · R$ 19,90</b><small>por mês</small></span></label></div>
- <div class="plansel" role="radiogroup" aria-label="Forma de pagamento"><label class="pc"><input type="radio" name="meth" value="card" checked><span><b>Cartão de crédito</b><small>renova automaticamente · cancele quando quiser</small></span></label><label class="pc"><input type="radio" name="meth" value="pix"><span><b>Pix</b><small>pagamento único, sem renovação (30 dias ou 1 ano)</small></span></label></div>
+<div id="book" hidden role="dialog" aria-modal="true" aria-labelledby="bk_t" tabindex="-1"><div class="lt"><button class="x" onclick="closeBook()" aria-label="Close theory">✕</button><h2 id="bk_t"></h2></div><div id="bk_b" tabindex="0" role="region" aria-labelledby="bk_t"></div><div class="ft"><button class="btn wide" onclick="startFromBook()">Start challenges</button></div></div>
+<div id="cel" hidden role="alertdialog" aria-modal="true" aria-labelledby="celt" aria-describedby="cels" tabindex="-1"><div class="celbox"><div class="celico" id="celi" aria-hidden="true">✅</div><h2 id="celt"></h2><p id="cels"></p><button class="btn" id="celb">Continue</button></div></div>
+<dialog id="pay" class="paydlg" aria-labelledby="payt"><button class="x" aria-label="Close" onclick="$('#pay').close()">✕</button>
+ <div class="nyx-dialog sm"><img class="nyxav float" src="assets/img/nyx/incrivel.webp" alt="" width="52" height="52"><div class="bubble"><b id="payt">Unlock everything with Code Ensina PRO</b><span id="paywhy"></span></div></div>
+ <ul class="benef"><li>JavaScript Lab: variables, functions and interactivity</li><li>Advanced Project Arena: HTML, CSS and logic together</li><li>Extra Logic, HTML and CSS lessons (from the 6th on)</li><li><b id="paynum">45</b> exclusive challenges, with explanations</li></ul>
+ <div class="plansel" role="radiogroup" aria-label="Choose a plan">
+  <label class="pc"><input type="radio" name="plan" value="annual" checked><span><b>Yearly · R$ 149,90</b><small>R$ 12,49 a month · save 37%</small></span><em class="best">Best value</em></label>
+  <label class="pc"><input type="radio" name="plan" value="monthly"><span><b>Monthly · R$ 19,90</b><small>per month</small></span></label></div>
+ <div class="plansel" role="radiogroup" aria-label="Payment method"><label class="pc"><input type="radio" name="meth" value="card" checked><span><b>Credit card</b><small>renews automatically · cancel anytime</small></span></label><label class="pc"><input type="radio" name="meth" value="pix"><span><b>Pix</b><small>one-time payment, no renewal (30 days or 1 year)</small></span></label></div>
  <div id="paymsg" role="status"></div>
- <button class="btn wide" id="paygo" onclick="payGo()">Assinar PRO</button>
+ <button class="btn wide" id="paygo" onclick="payGo()">Subscribe to PRO</button>
  <p class="payfine" id="payfine"></p>
- <div class="row"><button class="btn ghost" onclick="$('#pay').close()">Agora não</button></div></dialog>
-<div id="rank" hidden role="dialog" aria-modal="true" aria-labelledby="rk_t"><div class="lt"><button class="x" onclick="closeRank()" aria-label="Fechar ranking">✕</button><h2 id="rk_t">🏆 Ranking</h2></div>
- <div class="tabs2" role="tablist"><button id="rk_g" role="tab" aria-selected="true" onclick="rankTab('g')">Global</button><button id="rk_f" role="tab" aria-selected="false" onclick="rankTab('f')">Amigos</button></div><main id="rk_b"></main></div>
-<div id="adm" hidden role="dialog" aria-modal="true" aria-labelledby="ad_t"><div class="lt"><button class="x" onclick="closeAdmin()" aria-label="Fechar administração">✕</button><h2 id="ad_t">🛠 Administração</h2></div>
- <div class="tabs2" role="tablist"><button id="ad_m" role="tab" aria-selected="true" onclick="admTab('m')">Métricas</button><button id="ad_u" role="tab" aria-selected="false" onclick="admTab('u')">Usuários</button><button id="ad_c" role="tab" aria-selected="false" onclick="admTab('c')">Conteúdo PRO</button><button id="ad_l" role="tab" aria-selected="false" onclick="admTab('l')">Escolas</button><button id="ad_a" role="tab" aria-selected="false" onclick="admTab('a')">Auditoria</button></div><main id="adm_b"></main></div>
-<dialog id="idle" aria-labelledby="idt"><h3 id="idt">Você ainda está aí?</h3><p>Por segurança, vamos sair da sua conta em <b id="idlesec">60</b> segundos por inatividade.</p><div class="row"><button class="btn ghost" onclick="idleOut()">Sair agora</button><button class="btn" onclick="idleStay()">Continuar</button></div></dialog>
-<dialog id="forgot" aria-labelledby="fgt"><h3 id="fgt">Redefinir senha</h3><p>Digite o e-mail da sua conta. Enviaremos um link para criar uma nova senha.</p><label for="fg_e">E-mail</label><input id="fg_e" type="email" autocomplete="email"><div id="fg_msg" role="status"></div><div class="row"><button class="btn ghost" onclick="$('#forgot').close()">Fechar</button><button class="btn" id="fg_b" onclick="sendReset()">Enviar link</button></div></dialog>
-<dialog id="priv" aria-labelledby="pvt"><h3 id="pvt">Política de Privacidade</h3>
+ <div class="row"><button class="btn ghost" onclick="$('#pay').close()">Not now</button></div></dialog>
+<div id="rank" hidden role="dialog" aria-modal="true" aria-labelledby="rk_t" tabindex="-1"><div class="lt"><button class="x" onclick="closeRank()" aria-label="Close ranking">✕</button><h2 id="rk_t">🏆 Ranking</h2></div>
+ <div class="tabs2" role="tablist"><button id="rk_g" role="tab" aria-selected="true" onclick="rankTab('g')">Global</button><button id="rk_f" role="tab" aria-selected="false" onclick="rankTab('f')">Friends</button></div><div id="rk_b" tabindex="0" role="region" aria-labelledby="rk_t"></div></div>
+<div id="adm" hidden role="dialog" aria-modal="true" aria-labelledby="ad_t" tabindex="-1"><div class="lt"><button class="x" onclick="closeAdmin()" aria-label="Close administration">✕</button><h2 id="ad_t">🛠 Administration</h2></div>
+ <div class="tabs2" role="tablist"><button id="ad_m" role="tab" aria-selected="true" onclick="admTab('m')">Metrics</button><button id="ad_u" role="tab" aria-selected="false" onclick="admTab('u')">Users</button><button id="ad_c" role="tab" aria-selected="false" onclick="admTab('c')">PRO content</button><button id="ad_l" role="tab" aria-selected="false" onclick="admTab('l')">Schools</button><button id="ad_a" role="tab" aria-selected="false" onclick="admTab('a')">Audit log</button></div><div id="adm_b" tabindex="0" role="region" aria-labelledby="ad_t"></div></div>
+<dialog id="idle" aria-labelledby="idt"><h3 id="idt">Are you still there?</h3><p>For your security, we will sign you out in <b id="idlesec">60</b> seconds due to inactivity.</p><div class="row"><button class="btn ghost" onclick="idleOut()">Sign out now</button><button class="btn" onclick="idleStay()">Continue</button></div></dialog>
+<dialog id="forgot" aria-labelledby="fgt"><h3 id="fgt">Reset password</h3><p>Enter your account email. We will send a link to create a new password.</p><label for="fg_e">Email</label><input id="fg_e" type="email" autocomplete="email"><div id="fg_msg" role="status"></div><div class="row"><button class="btn ghost" onclick="$('#forgot').close()">Close</button><button class="btn" id="fg_b" onclick="sendReset()">Send link</button></div></dialog>
+<dialog id="priv" aria-labelledby="pvt"><h3 id="pvt">Privacy Policy</h3>
  <p><b>O que guardamos:</b> apelido, nome, e-mail, data de nascimento e seu progresso (lições, XP e sequência). Para menores de 13 anos, também o e-mail do responsável.</p>
  <p><b>Para quê:</b> criar sua conta, salvar seu progresso e, no futuro, permitir que seu professor acompanhe a turma. Não vendemos seus dados nem os usamos para publicidade.</p>
  <p><b>Quem vê:</b> só você. Seu apelido é o único dado que aparece no app.</p>
  <p><b>Onde ficam:</b> em servidores do serviço Supabase, que podem estar fora do Brasil.</p>
  <p><b>Seus direitos:</b> você pode apagar a conta e todos os dados a qualquer momento, em "Minha conta". Para corrigir dados ou tirar dúvidas, fale com o responsável pelo projeto.</p>
- <div class="row"><button class="btn" onclick="$('#priv').close()">Entendi</button></div></dialog>
-<dialog id="acc" aria-labelledby="act"><h3 id="act">Minha conta</h3><p><b id="accn"></b><br><span id="acce"></span></p>
- <label class="chk2"><input type="checkbox" id="acc_rank"> Aparecer no ranking global (só apelido e XP)</label>
+ <div class="row"><button class="btn" onclick="$('#priv').close()">Got it</button></div></dialog>
+<dialog id="acc" aria-labelledby="act"><h3 id="act">My account</h3><p><b id="accn"></b><br><span id="acce"></span></p>
+ <label class="chk2"><input type="checkbox" id="acc_rank"> Show me in the global ranking (nickname and XP only)</label>
+ <label for="acc_lang">Language</label><select id="acc_lang"><option value="en">English</option><option value="pt-BR">Português (Brasil)</option></select>
+ <p class="muted" id="acc_langnote">Lessons and theory are still written in Portuguese; English versions are coming.</p>
  <p id="acc_sub"></p>
- <p>Apagar a conta remove seu perfil e todo o seu progresso, sem volta.</p>
- <div class="row"><button class="btn ghost" id="acc_manage" onclick="manageSub()" hidden>Gerenciar assinatura</button><button class="btn red" onclick="delAcc()">Apagar minha conta</button><button class="btn" onclick="$('#acc').close();openPay()">Renovar PRO</button><button class="btn ghost" onclick="$('#acc').close()">Fechar</button></div></dialog>
-<dialog id="newpw" aria-labelledby="npt"><h3 id="npt">Criar nova senha</h3><label for="np">Nova senha (mínimo 8 caracteres)</label><input id="np" type="password" autocomplete="new-password">
- <label for="np2">Repita a nova senha</label><input id="np2" type="password" autocomplete="new-password">
- <div id="nperr" role="alert"></div><div class="row"><button class="btn" onclick="setPw()">Salvar senha</button></div></dialog>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+ <p>Deleting your account removes your profile and all your progress, permanently.</p>
+ <div class="row"><button class="btn ghost" id="acc_manage" onclick="manageSub()" hidden>Manage subscription</button><button class="btn red" onclick="delAcc()">Delete my account</button><button class="btn" onclick="$('#acc').close();openPay()">Renew PRO</button><button class="btn ghost" onclick="$('#acc').close()">Close</button></div></dialog>
+<dialog id="newpw" aria-labelledby="npt"><h3 id="npt">Create a new password</h3><label for="np">New password (at least 8 characters)</label><input id="np" type="password" autocomplete="new-password">
+ <label for="np2">Repeat the new password</label><input id="np2" type="password" autocomplete="new-password">
+ <div id="nperr" role="alert"></div><div class="row"><button class="btn" onclick="setPw()">Save password</button></div></dialog>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/supabase.min.js"></script>
 <script src="js/config.js"></script>
 <script src="js/content.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/i18n/en.js"></script>
+<script src="js/i18n/pt-BR.js"></script>
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/pro.js"></script>
@@ -179,5 +203,7 @@
 <script src="js/session.js"></script>
 <script src="js/social.js"></script>
 <script src="js/admin.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/a11y.js"></script>
 </body>
 </html>
