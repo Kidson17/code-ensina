@@ -284,6 +284,7 @@ dict:{
 "The content must be a list of 1 to 12 challenges.":"O conteúdo precisa ser uma lista com 1 a 12 desafios.",
 "The map":"O mapa",
 "The passwords do not match.":"As senhas não são iguais.",
+ "Passwords do not match.":"As senhas não são iguais.",
 "The three foundation worlds have their first 5 lessons free. PRO unlocks everything else.":"Os três mundos de fundamentos têm as 5 primeiras lições grátis. O PRO libera todo o resto.",
 "Theory: {0}":"Teoria: {0}",
 "Think like a programmer: algorithms, variables, conditions and loops.":"Pense como um programador: algoritmos, variáveis, condições e laços.",

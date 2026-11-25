@@ -67,7 +67,7 @@
    <div class="tabs" role="tablist"><button id="tl" role="tab" aria-selected="true" onclick="authTab('login')">Sign in</button><button id="ts" role="tab" aria-selected="false" onclick="authTab('signup')">Create account</button></div>
    <div id="fl">
     <label for="lu">Email</label><input id="lu" type="email" autocomplete="email" placeholder="you@email.com">
-    <label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password" placeholder="your password">
+    <label for="lp">Password</label><div class="password-field"><input id="lp" type="password" autocomplete="current-password" placeholder="your password"><button type="button" class="password-toggle" data-password-toggle="lp" data-label-show="Show password" data-label-hide="Hide password" aria-label="Show password" aria-pressed="false" title="Show password"><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-show><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-hide hidden><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.7 15.7 0 0 1-3.1 3.9M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.1-.9"/></svg></button></div>
     <div id="lerr" role="alert"></div>
     <div id="lacts" class="lacts" hidden><button class="lnk" id="lresend" onclick="resendConfirm()" hidden>Resend confirmation email</button><button class="lnk" id="lforgot2" onclick="forgot()" hidden>Reset my password</button></div>
     <button class="btn wide" id="bl" onclick="doLogin()">Sign in</button>
@@ -80,7 +80,7 @@
     <label for="su_birth">Date of birth</label><input id="su_birth" type="date" autocomplete="bday">
     <fieldset class="langset"><legend>Language</legend><label class="pc2"><input type="radio" name="su_lang" value="en" checked> English</label><label class="pc2"><input type="radio" name="su_lang" value="pt-BR"> Português (Brasil)</label></fieldset>
     <div id="gwrap" hidden><label for="su_g">Parent or guardian's email</label><input id="su_g" type="email"></div>
-    <label for="su_pass">Password (at least 8 characters)</label><input id="su_pass" type="password" autocomplete="new-password">
+    <label for="su_pass">Password (at least 8 characters)</label><div class="password-field"><input id="su_pass" type="password" autocomplete="new-password"><button type="button" class="password-toggle" data-password-toggle="su_pass" data-label-show="Show password" data-label-hide="Hide password" aria-label="Show password" aria-pressed="false" title="Show password"><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-show><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-hide hidden><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.7 15.7 0 0 1-3.1 3.9M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.1-.9"/></svg></button></div><label for="su_pass2">Confirm password</label><div class="password-field"><input id="su_pass2" type="password" autocomplete="new-password"><button type="button" class="password-toggle" data-password-toggle="su_pass2" data-label-show="Show confirm password" data-label-hide="Hide confirm password" aria-label="Show confirm password" aria-pressed="false" title="Show confirm password"><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-show><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-hide hidden><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.7 15.7 0 0 1-3.1 3.9M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.1-.9"/></svg></button></div>
     <div class="chk"><input id="su_c" type="checkbox"><label for="su_c" id="clabel"></label></div>
     <div id="serr" role="alert"></div>
     <button class="btn wide" id="bs" onclick="doSignup()">Create my account</button>
@@ -185,8 +185,8 @@
  <p id="acc_sub"></p>
  <p>Deleting your account removes your profile and all your progress, permanently.</p>
  <div class="row"><button class="btn ghost" id="acc_manage" onclick="manageSub()" hidden>Manage subscription</button><button class="btn red" onclick="delAcc()">Delete my account</button><button class="btn" onclick="$('#acc').close();openPay()">Renew PRO</button><button class="btn ghost" onclick="$('#acc').close()">Close</button></div></dialog>
-<dialog id="newpw" aria-labelledby="npt"><h3 id="npt">Create a new password</h3><label for="np">New password (at least 8 characters)</label><input id="np" type="password" autocomplete="new-password">
- <label for="np2">Repeat the new password</label><input id="np2" type="password" autocomplete="new-password">
+<dialog id="newpw" aria-labelledby="npt"><h3 id="npt">Create a new password</h3><label for="np">New password (at least 8 characters)</label><div class="password-field"><input id="np" type="password" autocomplete="new-password"><button type="button" class="password-toggle" data-password-toggle="np" data-label-show="Show password" data-label-hide="Hide password" aria-label="Show password" aria-pressed="false" title="Show password"><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-show><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-hide hidden><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.7 15.7 0 0 1-3.1 3.9M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.1-.9"/></svg></button></div>
+ <label for="np2">Confirm new password</label><div class="password-field"><input id="np2" type="password" autocomplete="new-password"><button type="button" class="password-toggle" data-password-toggle="np2" data-label-show="Show confirm password" data-label-hide="Hide confirm password" aria-label="Show confirm password" aria-pressed="false" title="Show confirm password"><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-show><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" data-eye-hide hidden><path d="m3 3 18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a15.7 15.7 0 0 1-3.1 3.9M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4.1-.9"/></svg></button></div>
  <div id="nperr" role="alert"></div><div class="row"><button class="btn" onclick="setPw()">Save password</button></div></dialog>
 <script src="vendor/gsap.min.js"></script>
 <script src="vendor/ScrollTrigger.min.js"></script>
@@ -200,6 +200,7 @@
 <script src="js/auth.js"></script>
 <script src="js/pro.js"></script>
 <script src="js/authux.js"></script>
+<script src="js/password-ui.js"></script>
 <script src="js/session.js"></script>
 <script src="js/social.js"></script>
 <script src="js/admin.js"></script>

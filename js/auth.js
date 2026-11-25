@@ -30,7 +30,7 @@
     $('#clabel').innerHTML=(minor?t('My guardian authorized my sign-up and I read the '):t('I have read and accept the '))+'<a href="#" onclick="openPriv();return false">'+t('Privacy Policy')+'</a>.'};
   $('#su_birth').addEventListener('change',upd);upd();document.addEventListener('ce:lang',upd);
   $('#su_birth').max=new Date().toISOString().slice(0,10);
-  ['su_nick','su_name','su_mail','su_birth','su_pass','su_g'].forEach(i=>$('#'+i).addEventListener('keydown',e=>{if(e.key=='Enter')doSignup()}));
+  ['su_nick','su_name','su_mail','su_birth','su_pass','su_pass2','su_g'].forEach(i=>$('#'+i).addEventListener('keydown',e=>{if(e.key=='Enter')doSignup()}));
 
   if(!window.supabase||!cfg){const f=()=>msg('#lerr',t('Could not load the sign-in service. Refresh the page.'));window.doLogin=f;window.doSignup=()=>msg('#serr',t('Service unavailable. Refresh the page.'));window.logout=()=>{};return}
   const sb=supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -51,6 +51,7 @@
     const minor=a<13;
     if(minor&&(!okMail(gm)||gm.toLowerCase()==email.toLowerCase()))return msg('#serr',t('Enter your parent or guardian\'s email (different from yours).'));
     if(pw.length<8)return msg('#serr',t('Your password must have at least 8 characters.'));
+    if(pw!==$('#su_pass2').value)return msg('#serr',t('Passwords do not match.'));
     if(!$('#su_c').checked)return msg('#serr',t('Accept the Privacy Policy to continue.'));
     msg('#serr');busy('#bs',1);
     const av=await sb.rpc('nickname_available',{n:nick});

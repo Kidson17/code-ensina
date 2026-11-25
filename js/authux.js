@@ -33,7 +33,7 @@
   window.setPw=async()=>{
     const p=$('#np').value,p2=$('#np2').value;
     if(p.length<8)return msg('#nperr',t('At least 8 characters.'));
-    if(p!==p2)return msg('#nperr',t('The passwords do not match.'));
+    if(p!==p2)return msg('#nperr',t('Passwords do not match.'));
     const {error}=await sb().auth.updateUser({password:p});if(error)return msg('#nperr',tr(error));
     $('#np').value=$('#np2').value='';$('#newpw').close();
     await sb().auth.signOut({scope:'others'}); // desconecta os outros aparelhos

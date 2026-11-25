@@ -175,3 +175,14 @@ html:not([data-motion="0"]) .tipbox.in .bubble{animation:tipin .28s ease-out}
   .logo span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   #accb{max-width:7rem}
 }
+
+
+/* ===== Password visibility controls ===== */
+.password-field{position:relative;display:flex;align-items:stretch;width:100%;}
+.password-field>input{width:100%;min-width:0;padding-right:3.25rem!important;}
+.password-toggle{position:absolute;right:5px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:40px;height:40px;padding:0;border:var(--hair) solid transparent;border-radius:var(--r-md);background:transparent;color:var(--muted);cursor:pointer;transition:color var(--dur-1),background-color var(--dur-1),border-color var(--dur-1);}
+.password-toggle svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.password-toggle svg[hidden]{display:none;}
+@media(hover:hover){.password-toggle:hover{color:var(--text);background:var(--raised);border-color:var(--line-strong);}}
+.password-toggle:active{background:var(--violet-tint);color:var(--violet);}
+.password-toggle:focus-visible{outline:2px solid var(--focus);outline-offset:1px;}
